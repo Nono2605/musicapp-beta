@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundWave Creator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="creator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="creator-shell">
+        <aside class="creator-sidebar">
+            <a class="creator-brand" href="index.html"><span class="creator-mark"><i class="fas fa-wave-square"></i></span><span>SoundWave <strong>Creator</strong></span></a>
+            <nav class="creator-nav">
+                <a class="active" href="creator.html"><i class="fas fa-chart-line"></i> Vue d'ensemble</a>
+                <a href="#publish"><i class="fas fa-upload"></i> Publier un titre</a>
+                <a href="#catalog"><i class="fas fa-music"></i> Mes publications</a>
+                <a href="index.html"><i class="fas fa-headphones"></i> Retour à SoundWave</a>
+            </nav>
+            <div class="creator-sidebar-footer"><span class="creator-live-dot"></span><span>Studio actif</span></div>
+        </aside>
+        <main class="creator-main">
+            <header class="creator-header"><div><span class="eyebrow">Espace créateur</span><h1>Publiez ce qui vous ressemble.</h1><p>Gérez votre catalogue et partagez vos créations avec les auditeurs SoundWave.</p></div><div class="creator-user"><span id="creator-username">Créateur</span><a href="profile.html" class="profile-icon"><i class="fas fa-user"></i></a></div></header>
+            <section class="creator-stats"><div><span class="stat-icon"><i class="fas fa-music"></i></span><span><strong id="track-count">0</strong><small>Titres publiés</small></span></div><div><span class="stat-icon"><i class="fas fa-globe"></i></span><span><strong>Public</strong><small>Visibilité du catalogue</small></span></div><div><span class="stat-icon"><i class="fas fa-shield-alt"></i></span><span><strong>Prêt</strong><small>Compte créateur</small></span></div></section>
+            <section class="creator-section" id="publish"><div class="creator-section-heading"><div><span class="eyebrow">Nouvelle publication</span><h2>Ajouter un titre</h2></div><span class="creator-step">01 / Publication</span></div><form id="track-form" class="track-form"><div class="form-field form-wide"><label for="track-title">Titre du morceau</label><input id="track-title" name="title" required maxlength="160" placeholder="Ex. Horizon intérieur"></div><div class="form-field"><label for="track-artist">Artiste</label><input id="track-artist" name="artist" required maxlength="160" placeholder="Nom d'artiste"></div><div class="form-field"><label for="track-album">Album ou EP</label><input id="track-album" name="album" maxlength="160" placeholder="Optionnel"></div><div class="form-field"><label for="track-genre">Genre</label><select id="track-genre" name="genre"><option value="">Sélectionner</option><option>Pop</option><option>Rap</option><option>Électro</option><option>Rock</option><option>Jazz</option><option>Classique</option><option>Autre</option></select></div><div class="form-field"><label for="track-style">Style</label><input id="track-style" name="style" maxlength="80" placeholder="Ex. Lo-fi, indie, house"></div><div class="form-field"><label for="track-duration">Durée en secondes</label><input id="track-duration" name="durationSeconds" type="number" min="1" placeholder="210"></div><div class="form-field"><label for="track-release">Date de sortie</label><input id="track-release" name="releaseDate" type="date"></div><div class="form-field"><label for="track-cover">URL de la pochette</label><input id="track-cover" name="coverUrl" type="url" placeholder="https://..."></div><div class="form-field form-wide"><label for="track-audio">URL du fichier audio</label><input id="track-audio" name="audioUrl" type="url" placeholder="https://...mp3"><small>Le fichier doit être hébergé et accessible publiquement.</small></div><label class="featured-toggle"><input id="track-featured" name="isFeatured" type="checkbox"><span><strong>Mettre en avant</strong><small>Proposer ce titre dans les recommandations.</small></span></label><div class="form-actions form-wide"><button class="creator-button" type="submit"><i class="fas fa-upload"></i> Publier le titre</button><p id="creator-message" class="creator-message" aria-live="polite"></p></div></form></section>
+            <section class="creator-section" id="catalog"><div class="creator-section-heading"><div><span class="eyebrow">Votre catalogue</span><h2>Publications</h2></div><span class="creator-step" id="catalog-status">0 titre</span></div><div id="creator-catalog" class="creator-catalog"><div class="creator-empty"><i class="fas fa-music"></i><strong>Aucune publication</strong><span>Votre premier titre apparaîtra ici.</span></div></div></section>
+        </main>
+    </div>
+    <script src="creator.js"></script>
+</body>
+</html>

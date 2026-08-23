@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rechercher - SoundWave</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo"><h1>SoundWave</h1></div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                <li class="active"><a href="search.html"><i class="fas fa-search"></i> Rechercher</a></li>
+                <li><a href="library.html"><i class="fas fa-book-open"></i> Bibliothèque</a></li>
+                <li><a href="premium.html"><i class="fas fa-crown"></i> Offres Premium</a></li>
+            </ul>
+            <div class="playlists"><h3>Vos playlists</h3><ul class="playlist-links"><li><a href="library.html">Ma Musique</a></li><li><a href="library.html">Favoris</a></li></ul></div>
+        </nav>
+        <main class="main-content">
+            <header><div class="nav-buttons"><a class="btn-nav" href="index.html"><i class="fas fa-chevron-left"></i></a></div><div class="user-profile"><a class="btn-upgrade" href="profile.html">Mon profil</a><div class="profile-icon"><i class="fas fa-user"></i></div></div></header>
+            <section class="page-heading"><span class="eyebrow">Explorer</span><h2>Que souhaitez-vous écouter ?</h2><div class="search-field"><i class="fas fa-search"></i><input id="search-input" type="search" placeholder="Artistes, titres ou albums"></div></section>
+            <section class="music-section"><h3>Parcourir les catégories</h3><div class="genre-grid"><a href="#" class="genre-card genre-pop">Pop actuelle</a><a href="#" class="genre-card genre-electro">Électro nocturne</a><a href="#" class="genre-card genre-rap">Rap français</a><a href="#" class="genre-card genre-jazz">Jazz & soul</a><a href="#" class="genre-card genre-rock">Rock alternatif</a><a href="#" class="genre-card genre-chill">Chill du dimanche</a></div></section>
+            <section class="music-section"><h3>Résultats du catalogue</h3><div class="card-grid compact-grid" id="search-results"><div class="empty-library"><i class="fas fa-search"></i><strong>Recherchez un titre</strong><span>Les morceaux disponibles apparaîtront ici.</span></div></div></section>
+        </main>
+        <footer class="player"><div class="now-playing"><img src="https://picsum.photos/seed/nowplaying/60" alt="Pochette actuelle"><div class="track-info"><span>Choisissez un titre</span><span>SoundWave</span></div><i class="far fa-heart"></i></div><div class="player-controls"><div class="control-buttons"><i class="fas fa-random"></i><i class="fas fa-step-backward"></i><i class="fas fa-play-circle play-btn"></i><i class="fas fa-step-forward"></i><i class="fas fa-redo"></i></div><div class="progress-container"><span>0:00</span><div class="progress-bar"><div class="progress"></div></div><span>0:00</span></div></div><div class="volume-controls"><i class="fas fa-volume-up"></i><div class="volume-bar"><div class="volume-progress"></div></div></div></footer>
+    </div>
+    <script src="pages.js"></script>
+</body>
+</html>

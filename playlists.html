@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlists - SoundWave</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar"><div class="logo"><h1>SoundWave</h1></div><ul class="nav-links"><li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li><li><a href="search.html"><i class="fas fa-search"></i> Rechercher</a></li><li class="active"><a href="library.html"><i class="fas fa-book-open"></i> Bibliothèque</a></li><li><a href="premium.html"><i class="fas fa-crown"></i> Premium</a></li><li><a href="profile.html"><i class="fas fa-user"></i> Mon profil</a></li></ul><div class="playlists"><h3>Votre compte</h3><ul class="playlist-links"><li><a href="profile.html">Profil</a></li><li><a href="abonnement.html">Abonnement</a></li></ul></div></nav>
+        <main class="main-content"><header><div class="nav-buttons"><a class="btn-nav" href="library.html"><i class="fas fa-chevron-left"></i></a></div><div class="user-profile"><a class="btn-upgrade" href="profile.html">Mon profil</a><div class="profile-icon"><i class="fas fa-user"></i></div></div></header><section class="page-heading"><span class="eyebrow">Votre collection</span><h2>Playlists</h2><p>Organisez vos morceaux par ambiance, activité ou découverte.</p></section><div class="library-tabs"><a class="library-tab" href="library.html">Titres</a><a class="library-tab" href="albums.html">Albums</a><a class="library-tab" href="artists.html">Artistes</a><a class="library-tab active" href="playlists.html">Playlists</a></div><section class="music-section"><div class="playlist-grid"><article class="playlist-card"><div class="playlist-cover cover-night"><i class="fas fa-moon"></i></div><div><h3>Nuits calmes</h3><p>Votre playlist personnelle</p><span>0 titres</span></div></article><article class="playlist-card"><div class="playlist-cover cover-focus"><i class="fas fa-bolt"></i></div><div><h3>Concentration</h3><p>Pour rester dans le rythme</p><span>0 titres</span></div></article><article class="playlist-card create-playlist-card"><div class="playlist-cover"><i class="fas fa-plus"></i></div><div><h3>Créer une playlist</h3><p>Donnez-lui un nom et une ambiance</p></div></article></div></section></main>
+        <footer class="player"><div class="now-playing"><img src="https://picsum.photos/seed/nowplaying/60" alt="Pochette actuelle"><div class="track-info"><span>Aucun titre sélectionné</span><span>SoundWave</span></div><i class="far fa-heart"></i></div><div class="player-controls"><div class="control-buttons"><i class="fas fa-random"></i><i class="fas fa-step-backward"></i><i class="fas fa-play-circle play-btn"></i><i class="fas fa-step-forward"></i><i class="fas fa-redo"></i></div><div class="progress-container"><span>0:00</span><div class="progress-bar"><div class="progress"></div></div><span>0:00</span></div></div><div class="volume-controls"><i class="fas fa-volume-up"></i><div class="volume-bar"><div class="volume-progress"></div></div></div></footer>
+    </div><script src="pages.js"></script>
+</body>
+</html>
