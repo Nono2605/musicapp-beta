@@ -10,9 +10,11 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '5mb' }));
-app.use(express.static(__dirname));
+// Servir les fichiers statiques depuis le dossier public
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-const uploadsDirectory = path.join(__dirname, 'uploads');
+// Chemin vers le dossier uploads désormais situé dans public/uploads
+const uploadsDirectory = path.join(__dirname, '..', 'public', 'uploads');
 fs.mkdirSync(uploadsDirectory, { recursive: true });
 app.use('/uploads', express.static(uploadsDirectory));
 

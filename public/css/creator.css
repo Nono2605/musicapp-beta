@@ -5,6 +5,33 @@ body { background: var(--creator-paper); color: var(--creator-ink); overflow: au
 .creator-brand { align-items: center; color: white; display: flex; font-size: 16px; gap: 10px; text-decoration: none; }
 .creator-brand strong { color: #ff956e; font-weight: 500; }
 .creator-mark { align-items: center; background: var(--creator-accent); border-radius: 50%; display: flex; height: 34px; justify-content: center; width: 34px; }
+.creator-quick-access-list {
+    bottom: calc(90px + 12px);
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    padding: 0 18px;
+    position: fixed;
+    right: 0;
+    z-index: 15;
+}
+.creator-quick-access {
+    align-items: center;
+    background: rgba(21, 21, 21, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    color: white;
+    display: inline-flex;
+    font-size: 12px;
+    gap: 8px;
+    justify-content: center;
+    min-width: 110px;
+    padding: 8px 12px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.creator-quick-access i { color: var(--creator-accent); }
 .creator-nav { display: grid; gap: 8px; margin-top: 76px; }
 .creator-nav a { border-left: 2px solid transparent; color: #a9a9a2; padding: 13px 12px; text-decoration: none; }
 .creator-nav a:hover, .creator-nav a.active { background: #252525; border-color: var(--creator-accent); color: white; }

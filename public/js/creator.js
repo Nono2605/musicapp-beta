@@ -65,9 +65,9 @@ async function loadCatalog() {
 function showCreatorSignup(user) {
     document.querySelector('.creator-main').innerHTML = `
         <section class="creator-onboarding">
-            <span class="eyebrow">SoundWave Creator</span>
+            <span class="eyebrow">Sonovia Creator</span>
             <h1>Créez votre espace de publication.</h1>
-            <p>Votre compte SoundWave vous permet d’écouter. Un compte Creator séparé vous permet de publier et gérer vos créations.</p>
+            <p>Votre compte Sonovia vous permet d’écouter. Un compte Creator séparé vous permet de publier et gérer vos créations.</p>
             <form id="creator-signup-form" class="creator-signup-form">
                 <label for="creator-display-name">Nom affiché par le créateur</label>
                 <input id="creator-display-name" required maxlength="100" placeholder="Ex. Studio Nova">
@@ -95,15 +95,45 @@ function showCreatorSignup(user) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const user = getCurrentUser();
-    if (!user) {
-        document.querySelector('.creator-main').innerHTML = '<div class="creator-locked"><i class="fas fa-lock"></i><h1>Connectez-vous pour accéder à Creator</h1><p>Votre espace de publication est réservé aux utilisateurs SoundWave.</p><a href="index.html">Retour à SoundWave</a></div>';
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const protectedPages = new Set(['landing.html', 'library.html', 'profile.html', 'abonnement.html', 'creator.html']);
+    const savedUser = getCurrentUser();
+
+    if (!savedUser && protectedPages.has(currentPage)) {
+        window.location.replace('index.html?auth=login');
         return;
     }
-    if (user) document.getElementById('creator-username').textContent = user.username;
+
+    if (!document.querySelector('.page-quick-access-list')) {
+        const quickAccess = document.createElement('div');
+        quickAccess.className = 'page-quick-access-list';
+        const remunerationHref = savedUser ? 'remuneration.html' : 'remuneration-public.html';
+        quickAccess.innerHTML = `
+            <a class="page-quick-access" href="creator.html" aria-label="Accéder au Studio Sonovia Creator">
+                <i class="fas fa-microphone-lines"></i><span>Creator</span>
+            </a>
+            <a class="page-quick-access" href="${remunerationHref}" aria-label="Voir la rémunération des artistes">
+                <i class="fas fa-coins"></i><span>Rémunération</span>
+            </a>
+        `;
+        document.body.appendChild(quickAccess);
+    }
+
+    const user = savedUser;
+    if (!user) {
+        const creatorMain = document.querySelector('.creator-main');
+        if (creatorMain) {
+            creatorMain.innerHTML = '<div class="creator-locked"><i class="fas fa-lock"></i><h1>Connectez-vous pour accéder à Creator</h1><p>Votre espace de publication est réservé aux utilisateurs Sonovia.</p><a href="index.html?auth=login">Retour à Sonovia</a></div>';
+        }
+        return;
+    }
+    const creatorUsername = document.getElementById('creator-username');
+    if (creatorUsername) creatorUsername.textContent = user.username;
     const form = document.getElementById('track-form');
+    if (!form) return;
     addAudioFileInput(form);
     const message = document.getElementById('creator-message');
+    if (!message) return;
     fetch(`${API_URL}/creators/${user.id}`).then(response => response.json()).then(creator => {
         if (!creator) showCreatorSignup(user);
     }).catch(() => showCreatorSignup(user));
@@ -130,5 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
             button.disabled = false;
         }
     });
-    loadCatalog().catch(() => { document.getElementById('creator-message').textContent = 'Serveur indisponible.'; });
+    loadCatalog().catch(() => {
+        const creatorMessage = document.getElementById('creator-message');
+        if (creatorMessage) creatorMessage.textContent = 'Serveur indisponible.';
+    });
 });

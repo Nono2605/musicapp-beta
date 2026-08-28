@@ -7,7 +7,7 @@ window.fetch = (input, options = {}) => {
 
 function createCard(track) {
     const trackId = track.id;
-    const cover = track.cover_url || 'https://via.placeholder.com/200/1b1b1b/ffffff?text=SoundWave';
+    const cover = track.cover_url || 'https://via.placeholder.com/200/1b1b1b/ffffff?text=Sonovia';
     return `
         <div class="card" onclick="playTrack('${track.title}', '${track.artist}', '${cover}', '${encodeURIComponent(track.audio_url || '')}', '${trackId}')">
             <img src="${cover}" alt="${track.title}">
@@ -60,6 +60,47 @@ function formatTime(seconds) {
 
 let playerVolume = 0.7;
 
+function getAudioElement() {
+    let audio = document.getElementById('soundwave-audio');
+    if (!audio) {
+        audio = document.createElement('audio');
+        audio.id = 'soundwave-audio';
+        audio.preload = 'metadata';
+        audio.volume = playerVolume;
+        document.body.appendChild(audio);
+        audio.addEventListener('loadedmetadata', () => updatePlayerTime(audio));
+        audio.addEventListener('timeupdate', () => updatePlayerTime(audio));
+        audio.addEventListener('ended', () => {
+            updatePlayerTime(audio);
+            const masterPlay = document.getElementById('master-play');
+            if (masterPlay) {
+                masterPlay.classList.remove('fa-pause-circle');
+                masterPlay.classList.add('fa-play-circle');
+            }
+        });
+    }
+    return audio;
+}
+
+function syncVolumeUI() {
+    const audio = getAudioElement();
+    const volumeButton = document.getElementById('volume-button');
+    const volumeProgress = document.querySelector('.volume-progress');
+    const nextVolume = Math.min(Math.max(playerVolume, 0), 1);
+
+    if (audio) {
+        audio.volume = nextVolume;
+        audio.muted = nextVolume === 0;
+    }
+    if (volumeButton) {
+        volumeButton.classList.toggle('fa-volume-up', nextVolume > 0);
+        volumeButton.classList.toggle('fa-volume-mute', nextVolume === 0);
+    }
+    if (volumeProgress) {
+        volumeProgress.style.width = `${nextVolume * 100}%`;
+    }
+}
+
 function updatePlayerTime(audio) {
     const elapsed = document.getElementById('current-time');
     const duration = document.getElementById('track-duration-display');
@@ -100,29 +141,16 @@ function setupPlayerActions() {
     const volumeBar = document.getElementById('volume-bar');
     const queueButton = document.getElementById('queue-button');
     const deviceButton = document.getElementById('device-button');
+    syncVolumeUI();
     if (volumeButton && volumeBar) {
         volumeButton.addEventListener('click', () => {
-            const audio = document.getElementById('soundwave-audio');
             playerVolume = playerVolume > 0 ? 0 : 0.7;
-            if (audio) {
-                audio.volume = playerVolume;
-                audio.muted = playerVolume === 0;
-            }
-            volumeButton.classList.toggle('fa-volume-up', playerVolume > 0);
-            volumeButton.classList.toggle('fa-volume-mute', playerVolume === 0);
-            document.querySelector('.volume-progress').style.width = `${playerVolume * 100}%`;
+            syncVolumeUI();
         });
         const setVolumeFromPointer = event => {
-            const audio = document.getElementById('soundwave-audio');
             const bounds = volumeBar.getBoundingClientRect();
             playerVolume = Math.min(Math.max((event.clientX - bounds.left) / bounds.width, 0), 1);
-            if (audio) {
-                audio.volume = playerVolume;
-                audio.muted = playerVolume === 0;
-            }
-            volumeButton.classList.toggle('fa-volume-mute', playerVolume === 0);
-            volumeButton.classList.toggle('fa-volume-up', playerVolume > 0);
-            document.querySelector('.volume-progress').style.width = `${playerVolume * 100}%`;
+            syncVolumeUI();
         };
         volumeBar.addEventListener('pointerdown', event => {
             event.preventDefault();
@@ -204,25 +232,13 @@ function playTrack(title, artist, cover, encodedAudioUrl = '', trackId = '') {
     }
 
     const audioUrl = decodeURIComponent(encodedAudioUrl);
-    let audio = document.getElementById('soundwave-audio');
-    if (!audio) {
-        audio = document.createElement('audio');
-        audio.id = 'soundwave-audio';
-        audio.preload = 'metadata';
-        audio.volume = playerVolume;
-        document.body.appendChild(audio);
-        audio.addEventListener('loadedmetadata', () => updatePlayerTime(audio));
-        audio.addEventListener('timeupdate', () => updatePlayerTime(audio));
-        audio.addEventListener('ended', () => {
-            updatePlayerTime(audio);
-            document.getElementById('master-play').classList.replace('fa-pause-circle', 'fa-play-circle');
-        });
-    }
+    const audio = getAudioElement();
+    audio.volume = playerVolume;
     if (audioUrl) {
         audio.src = audioUrl;
         audio.play().catch(() => {});
     }
-    
+
     const playBtn = document.getElementById('master-play');
     if (audioUrl && playBtn) {
         playBtn.classList.remove('fa-play-circle');
@@ -231,17 +247,20 @@ function playTrack(title, artist, cover, encodedAudioUrl = '', trackId = '') {
 }
 
 // Toggle play/pause
-document.getElementById('master-play').addEventListener('click', function() {
-    const audio = document.getElementById('soundwave-audio');
-    if (audio && audio.src) {
-        if (audio.paused) audio.play().catch(() => {});
-        else audio.pause();
-    }
-    if (audio && audio.src) {
-        this.classList.toggle('fa-play-circle', audio.paused);
-        this.classList.toggle('fa-pause-circle', !audio.paused);
-    }
-});
+const masterPlay = document.getElementById('master-play');
+if (masterPlay) {
+    masterPlay.addEventListener('click', function() {
+        const audio = document.getElementById('soundwave-audio');
+        if (audio && audio.src) {
+            if (audio.paused) audio.play().catch(() => {});
+            else audio.pause();
+        }
+        if (audio && audio.src) {
+            this.classList.toggle('fa-play-circle', audio.paused);
+            this.classList.toggle('fa-pause-circle', !audio.paused);
+        }
+    });
+}
 
 const API_URL = '/api';
 
@@ -274,57 +293,64 @@ function switchAuthTab(tab) {
 }
 
 // Handle Signup
-document.getElementById('signup-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('signup-username').value;
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
+const signupForm = document.getElementById('signup-form');
+if (signupForm) {
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('signup-username').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
 
-    try {
-        const response = await fetch(`${API_URL}/signup`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password })
-        });
-        const data = await response.json();
+        try {
+            const response = await fetch(`${API_URL}/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+            const data = await response.json();
 
-        if (response.ok) {
-            alert('Compte créé avec succès ! Vous pouvez maintenant vous connecter.');
-            switchAuthTab('login');
-        } else {
-            alert(data.error || 'Une erreur est survenue.');
+            if (response.ok) {
+                alert('Compte créé avec succès ! Vous pouvez maintenant vous connecter.');
+                switchAuthTab('login');
+            } else {
+                alert(data.error || 'Une erreur est survenue.');
+            }
+        } catch (error) {
+            alert('Erreur de connexion au serveur.');
         }
-    } catch (error) {
-        alert('Erreur de connexion au serveur.');
-    }
-});
+    });
+}
 
 // Handle Login
-document.getElementById('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
 
-    try {
-        const response = await fetch(`${API_URL}/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-        const data = await response.json();
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json();
 
-        if (response.ok) {
-            alert(`Bienvenue, ${data.username} !`);
-            closeAuthModal();
-            updateUIForUser(data);
-            localStorage.setItem('soundwave_user', JSON.stringify(data));
-        } else {
-            alert(data.error || 'Identifiants incorrects.');
+            if (response.ok) {
+                alert(`Bienvenue, ${data.username} !`);
+                closeAuthModal();
+                localStorage.setItem('soundwave_user', JSON.stringify(data));
+                updateUIForUser(data);
+                window.location.href = 'landing.html';
+            } else {
+                alert(data.error || 'Identifiants incorrects.');
+            }
+        } catch (error) {
+            alert('Erreur de connexion au serveur.');
         }
-    } catch (error) {
-        alert('Erreur de connexion au serveur.');
-    }
-});
+    });
+}
 
 function updateUIForUser(user) {
     // Change "Se connecter" in header to "Profil"
@@ -341,7 +367,7 @@ function updateUIForUser(user) {
     const navLinks = document.querySelector('.nav-links');
     if (navLinks) {
         navLinks.innerHTML = `
-            <li class="active"><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+            <li class="active"><a href="landing.html"><i class="fas fa-home"></i> Accueil</a></li>
             <li><a href="search.html"><i class="fas fa-search"></i> Rechercher</a></li>
             <li><a href="library.html"><i class="fas fa-book-open"></i> Bibliothèque</a></li>
             <li><a href="premium.html"><i class="fas fa-crown"></i> Premium</a></li>
@@ -395,12 +421,20 @@ function setupMobileNavigation() {
 }
 
 // Event Listeners
-document.querySelector('.btn-upgrade').addEventListener('click', (event) => {
-    if (!event.currentTarget.classList.contains('profile-button')) {
-        openAuthModal();
-    }
-});
-document.querySelector('.close-modal').addEventListener('click', closeAuthModal);
+const upgradeButton = document.querySelector('.btn-upgrade');
+if (upgradeButton) {
+    upgradeButton.addEventListener('click', (event) => {
+        if (!event.currentTarget.classList.contains('profile-button')) {
+            openAuthModal();
+        }
+    });
+}
+
+const closeModalButton = document.querySelector('.close-modal');
+if (closeModalButton) {
+    closeModalButton.addEventListener('click', closeAuthModal);
+}
+
 document.querySelectorAll('.auth-trigger').forEach(link => {
     link.addEventListener('click', (event) => {
         event.preventDefault();
@@ -417,10 +451,33 @@ window.addEventListener('click', (e) => {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const protectedPages = new Set(['landing.html', 'library.html', 'profile.html', 'abonnement.html', 'creator.html']);
+    const savedUser = JSON.parse(localStorage.getItem('soundwave_user'));
+
+    if (!savedUser && protectedPages.has(currentPage)) {
+        window.location.replace('index.html?auth=login');
+        return;
+    }
+
+    if (!document.querySelector('.page-quick-access-list')) {
+        const quickAccess = document.createElement('div');
+        quickAccess.className = 'page-quick-access-list';
+        const remunerationHref = savedUser ? 'remuneration.html' : 'remuneration-public.html';
+        quickAccess.innerHTML = `
+            <a class="page-quick-access" href="creator.html" aria-label="Accéder au Studio Sonovia Creator">
+                <i class="fas fa-microphone-lines"></i><span>Creator</span>
+            </a>
+            <a class="page-quick-access" href="${remunerationHref}" aria-label="Voir la rémunération des artistes">
+                <i class="fas fa-coins"></i><span>Rémunération</span>
+            </a>
+        `;
+        document.body.appendChild(quickAccess);
+    }
+
     renderMusic();
     setupProgressSeek();
     setupPlayerActions();
-    const savedUser = JSON.parse(localStorage.getItem('soundwave_user'));
     document.body.classList.toggle('visitor-mode', !savedUser);
     if (savedUser) {
         updateUIForUser(savedUser);

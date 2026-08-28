@@ -24,8 +24,9 @@ function renderSharedNavigation(user) {
     }
 
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const homeLink = user ? 'landing.html' : 'index.html';
     const links = [
-        ['index.html', 'fa-home', 'Accueil'],
+        [homeLink, 'fa-home', 'Accueil'],
         ['search.html', 'fa-search', 'Rechercher'],
         ['premium.html', 'fa-crown', 'Premium'],
     ];
@@ -271,6 +272,24 @@ function setupLibraryTabs() {
     ].map(([href, label]) => `<a class="library-tab ${href === currentPage ? 'active' : ''}" href="${href}">${label}</a>`).join('');
 }
 
+function setupQuickAccessLinks(user) {
+    if (document.querySelector('.page-quick-access-list')) return;
+    const quickAccess = document.createElement('div');
+    quickAccess.className = 'page-quick-access-list';
+    
+    const remunerationHref = user ? 'remuneration.html' : 'remuneration-public.html';
+    
+    quickAccess.innerHTML = `
+        <a class="page-quick-access" href="creator.html" aria-label="Accéder au Studio Sonovia Creator">
+            <i class="fas fa-microphone-lines"></i><span>Creator</span>
+        </a>
+        <a class="page-quick-access" href="${remunerationHref}" aria-label="Voir la rémunération des artistes">
+            <i class="fas fa-coins"></i><span>Rémunération</span>
+        </a>
+    `;
+    document.body.appendChild(quickAccess);
+}
+
 function setupSearchPage() {
     const input = document.getElementById('search-input');
     const results = document.getElementById('search-results');
@@ -283,7 +302,7 @@ function setupSearchPage() {
         }
         results.innerHTML = tracks.map(track => `
             <article class="card">
-                <img src="${track.cover_url || 'https://via.placeholder.com/200/1b1b1b/ffffff?text=SoundWave'}" alt="${track.title}">
+                <img src="${track.cover_url || 'https://via.placeholder.com/200/1b1b1b/ffffff?text=Sonovia'}" alt="${track.title}">
                 <h4>${track.title}</h4>
                 <p>${track.artist}${track.album ? ` · ${track.album}` : ''}</p>
                 <small class="track-meta">${track.genre || 'Genre non renseigné'}${track.style ? ` · ${track.style}` : ''}</small>
@@ -326,10 +345,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(localStorage.getItem('soundwave_user') || 'null');
     document.body.classList.toggle('visitor-mode', !user);
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    if (!user && currentPage === 'profile.html') {
-        window.location.replace('index.html');
+    const protectedPages = new Set(['landing.html', 'library.html', 'profile.html', 'abonnement.html', 'creator.html']);
+    if (!user && protectedPages.has(currentPage)) {
+        window.location.replace('index.html?auth=login');
         return;
     }
+    setupQuickAccessLinks();
     renderSharedNavigation(user);
     setupMobileNavigation();
     setupLibraryTabs();

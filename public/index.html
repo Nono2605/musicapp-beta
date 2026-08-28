@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonovia - Bienvenue</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="spotify-landing">
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="auth-tabs">
+                <button class="tab-btn active" type="button" onclick="switchAuthTab('login')">Connexion</button>
+                <button class="tab-btn" type="button" onclick="switchAuthTab('signup')">Inscription</button>
+            </div>
+
+            <form id="login-form" class="auth-form">
+                <h2>Bon retour !</h2>
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Mot de passe" required>
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </form>
+
+            <form id="signup-form" class="auth-form hidden">
+                <h2>Rejoignez Sonovia</h2>
+                <input type="text" id="signup-username" placeholder="Nom d'utilisateur" required>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Mot de passe" required>
+                <button type="submit" class="btn-submit">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="spotify-page">
+        <header class="spotify-header">
+            <div class="brand" aria-label="Sonovia">
+                <span class="brand-mark">SW</span>
+                <span>Sonovia</span>
+            </div>
+
+            <nav class="spotify-nav" aria-label="Navigation principale">
+                <a href="index.html">Accueil</a>
+                <a href="offres-abonnement.html">Abonnements Premium</a>
+                <a href="assistance.html">Assistance</a>
+                <a href="telecharger.html">Télécharger</a>
+            </nav>
+
+            <div class="spotify-actions">
+                <a href="#" class="auth-trigger signup-link">S'inscrire</a>
+                <button class="spotify-login auth-trigger" type="button">Connexion</button>
+            </div>
+        </header>
+
+        <main class="spotify-main">
+            <section class="premium-banner">
+                <div class="premium-copy">
+                    <p class="eyebrow">Premium</p>
+                    <h1>0 CHF pour 3 mois de Premium Personnel</h1>
+                    <p class="lead">Écoutez votre musique sans pub, hors connexion, et bien plus encore. Annulez à tout moment.</p>
+                    <div class="premium-actions">
+                        <a href="#" id="btn-premium-start" class="cta-primary">Commencer</a>
+                        <a href="offres-abonnement.html" class="cta-secondary">Voir les offres</a>
+                    </div>
+                    <p class="fine-print">
+                        Premium Personnel uniquement. 0 CHF pour 3 mois, puis 15.95 CHF par mois. Offre uniquement disponible si vous n'avez jamais essayé Premium.
+                        <a href="https://www.spotify.com/ch-fr/legal/paid-subscription-terms/" target="_blank" rel="noreferrer">Offre soumise à conditions.</a>
+                        Valable jusqu'au 23 septembre 2026.
+                    </p>
+                </div>
+
+                <div class="premium-visual" aria-label="Bénéfices Premium">
+                    <div class="visual-card main-card">
+                        <span class="chip">Premium</span>
+                        <h2>Sans pub</h2>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Écoute illimitée</li>
+                            <li><i class="fas fa-check"></i> Téléchargements</li>
+                            <li><i class="fas fa-check"></i> Qualité supérieure</li>
+                        </ul>
+                    </div>
+                    <div class="visual-card mini-card">
+                        <span>Écoute hors ligne</span>
+                        <strong>100%</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="feature-grid">
+                <article class="feature-card">
+                    <i class="fas fa-ban"></i>
+                    <h3>Sans publicité</h3>
+                    <p>Profitez de vos morceaux sans interruptions intempestives.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-download"></i>
+                    <h3>Téléchargements</h3>
+                    <p>Emportez votre musique partout, même sans connexion.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-headphones"></i>
+                    <h3>Qualité sonore</h3>
+                    <p>Une expérience plus riche, plus immersive et plus nette.</p>
+                </article>
+            </section>
+        </main>
+        <div class="page-quick-access-list">
+            <a class="page-quick-access" href="creator.html" aria-label="Accéder au Studio Sonovia Creator">
+                <i class="fas fa-microphone-lines"></i><span>Creator</span>
+            </a>
+            <a class="page-quick-access" href="remuneration-public.html" aria-label="Voir la rémunération des artistes">
+                <i class="fas fa-coins"></i><span>Rémunération</span>
+            </a>
+        </div>
+
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnStart = document.getElementById('btn-premium-start');
+            if (btnStart) {
+                btnStart.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const user = JSON.parse(localStorage.getItem('soundwave_user') || 'null');
+                    if (user) {
+                        // User is logged in, redirect to premium page
+                        window.location.href = 'premium.html';
+                    } else {
+                        // User not logged in, show auth modal
+                        const authModal = document.getElementById('auth-modal');
+                        if (authModal) {
+                            authModal.style.display = 'flex';
+                            // Switch to login tab by default
+                            switchAuthTab('login');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

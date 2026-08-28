@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonovia - Assistance</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="spotify-landing">
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="auth-tabs">
+                <button class="tab-btn active" type="button" onclick="switchAuthTab('login')">Connexion</button>
+                <button class="tab-btn" type="button" onclick="switchAuthTab('signup')">Inscription</button>
+            </div>
+
+            <form id="login-form" class="auth-form">
+                <h2>Bon retour !</h2>
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Mot de passe" required>
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </form>
+
+            <form id="signup-form" class="auth-form hidden">
+                <h2>Rejoignez Sonovia</h2>
+                <input type="text" id="signup-username" placeholder="Nom d'utilisateur" required>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Mot de passe" required>
+                <button type="submit" class="btn-submit">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="spotify-page">
+        <header class="spotify-header">
+            <div class="brand" aria-label="Sonovia">
+                <span class="brand-mark">SW</span>
+                <span>Sonovia</span>
+            </div>
+
+            <nav class="spotify-nav" aria-label="Navigation principale">
+                <a href="index.html">Accueil</a>
+                <a href="offres-abonnement.html">Abonnements Premium</a>
+                <a href="assistance.html">Assistance</a>
+                <a href="telecharger.html">Télécharger</a>
+            </nav>
+
+            <div class="spotify-actions">
+                <a href="#" class="auth-trigger signup-link">S'inscrire</a>
+                <button class="spotify-login auth-trigger" type="button">Connexion</button>
+            </div>
+        </header>
+
+        <main class="spotify-main">
+            <section class="premium-banner">
+                <div class="premium-copy">
+                    <p class="eyebrow">Assistance</p>
+                    <h1>Besoin d’aide ?</h1>
+                    <p class="lead">Nous sommes là pour vous aider à profiter pleinement de Sonovia, que ce soit pour votre compte, votre abonnement ou votre écoute.</p>
+                    <div class="premium-actions">
+                        <a href="#" class="cta-primary auth-trigger">Se connecter</a>
+                        <a href="premium.html" class="cta-secondary">Voir les offres</a>
+                    </div>
+                    <p class="fine-print">
+                        Questions sur le compte, la facture, le son, les téléchargements ou le Premium ?
+                        Vous pouvez retrouver les réponses les plus courantes dans cette page d’assistance.
+                    </p>
+                </div>
+
+                <div class="premium-visual" aria-label="Assistance Sonovia">
+                    <div class="visual-card main-card">
+                        <span class="chip">Support</span>
+                        <h2>Nous avons la réponse</h2>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Compte et accès</li>
+                            <li><i class="fas fa-check"></i> Abonnement Premium</li>
+                            <li><i class="fas fa-check"></i> Problèmes audio</li>
+                        </ul>
+                    </div>
+                    <div class="visual-card mini-card">
+                        <span>Disponibilité</span>
+                        <strong>24/7</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="feature-grid">
+                <article class="feature-card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Compte</h3>
+                    <p>Gérez votre profil, votre mot de passe et vos préférences utilisateur.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-credit-card"></i>
+                    <h3>Abonnement</h3>
+                    <p>Suivez votre abonnement, votre historique et les offres Premium disponibles.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-headphones"></i>
+                    <h3>Lecture</h3>
+                    <p>Vérifiez votre connexion, votre qualité audio et vos téléchargements hors ligne.</p>
+                </article>
+            </section>
+        </main>
+        <div class="page-quick-access-list">
+            <a class="page-quick-access" href="creator.html" aria-label="Accéder au Studio Sonovia Creator">
+                <i class="fas fa-microphone-lines"></i><span>Creator</span>
+            </a>
+            <a class="page-quick-access" href="remuneration-public.html" aria-label="Voir la rémunération des artistes">
+                <i class="fas fa-coins"></i><span>Rémunération</span>
+            </a>
+        </div>
+
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

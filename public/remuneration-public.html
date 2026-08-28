@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparence Rémunération - Sonovia</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="spotify-landing">
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="auth-tabs">
+                <button class="tab-btn active" type="button" onclick="switchAuthTab('login')">Connexion</button>
+                <button class="tab-btn" type="button" onclick="switchAuthTab('signup')">Inscription</button>
+            </div>
+
+            <form id="login-form" class="auth-form">
+                <h2>Bon retour !</h2>
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Mot de passe" required>
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </form>
+
+            <form id="signup-form" class="auth-form hidden">
+                <h2>Rejoignez Sonovia</h2>
+                <input type="text" id="signup-username" placeholder="Nom d'utilisateur" required>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Mot de passe" required>
+                <button type="submit" class="btn-submit">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="spotify-page">
+        <header class="spotify-header">
+            <div class="brand" aria-label="Sonovia">
+                <span class="brand-mark">SW</span>
+                <span>Sonovia</span>
+            </div>
+
+            <nav class="spotify-nav" aria-label="Navigation principale">
+                <a href="index.html">Accueil</a>
+                <a href="offres-abonnement.html">Abonnements Premium</a>
+                <a href="assistance.html">Assistance</a>
+                <a href="telecharger.html">Télécharger</a>
+            </nav>
+
+            <div class="spotify-actions">
+                <a href="#" class="auth-trigger signup-link">S'inscrire</a>
+                <button class="spotify-login auth-trigger" type="button">Connexion</button>
+            </div>
+        </header>
+
+        <main class="spotify-main">
+            <section class="premium-banner">
+                <div class="premium-copy">
+                    <p class="eyebrow">Transparence</p>
+                    <h1>Comment nous rémunérons les artistes</h1>
+                    <p class="lead">Chez Sonovia, nous croyons en une répartition juste et transparente des revenus pour soutenir la création musicale.</p>
+                    <div class="premium-actions">
+                        <a href="offres-abonnement.html" class="cta-primary">Soutenir les artistes</a>
+                        <a href="index.html?auth=signup" class="cta-secondary">S'inscrire</a>
+                    </div>
+                </div>
+
+                <div class="premium-visual" aria-label="Modèle de rémunération">
+                    <div class="visual-card main-card">
+                        <span class="chip">Répartition</span>
+                        <h2>85% aux Artistes</h2>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Paiement basé sur les écoutes</li>
+                            <li><i class="fas fa-check"></i> Transparence totale</li>
+                            <li><i class="fas fa-check"></i> Soutien aux émergents</li>
+                        </ul>
+                    </div>
+                    <div class="visual-card mini-card">
+                        <span>Frais Plateforme</span>
+                        <strong>15%</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="feature-grid">
+                <article class="feature-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>Modèle Proportionnel</h3>
+                    <p>Plus un artiste est écouté, plus sa part du revenu global est élevée.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h3>Soutien Direct</h3>
+                    <p>L'abonnement Premium permet d'augmenter significativement les revenus des créateurs.</p>
+                </article>
+                <article class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Équité</h3>
+                    <p>Un système automatisé garantit que chaque stream est comptabilisé et rémunéré.</p>
+                </article>
+            </section>
+        </main>
+        <div class="page-quick-access-list">
+            <a class="page-quick-access" href="creator.html" aria-label="Accéder au Studio Sonovia Creator">
+                <i class="fas fa-microphone-lines"></i><span>Creator</span>
+            </a>
+            <a class="page-quick-access" href="remuneration-public.html" aria-label="Voir la rémunération des artistes">
+                <i class="fas fa-coins"></i><span>Rémunération</span>
+            </a>
+        </div>
+
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
