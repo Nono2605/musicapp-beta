@@ -8,14 +8,17 @@ const db = require('./db_config');
 require('dotenv').config();
 
 const app = express();
+const publicDirectory = path.join(process.cwd(), 'public');
+const uploadsDirectory = path.join(publicDirectory, 'uploads');
+
 app.use(cors());
 app.use(express.json({ limit: '5mb' }));
-// Servir les fichiers statiques depuis le dossier public
-app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Chemin vers le dossier uploads désormais situé dans public/uploads
-const uploadsDirectory = path.join(__dirname, '..', 'public', 'uploads');
+fs.mkdirSync(publicDirectory, { recursive: true });
 fs.mkdirSync(uploadsDirectory, { recursive: true });
+
+// Servir les fichiers statiques depuis le dossier public
+app.use(express.static(publicDirectory));
 app.use('/uploads', express.static(uploadsDirectory));
 
 const uploadMp3 = multer({
