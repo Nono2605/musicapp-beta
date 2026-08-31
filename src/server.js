@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const multer = require('multer');
 const db = require('./db_config');
@@ -9,13 +10,36 @@ require('dotenv').config();
 
 const app = express();
 const publicDirectory = path.join(process.cwd(), 'public');
-const uploadsDirectory = path.join(publicDirectory, 'uploads');
+const fallbackUploadsDirectory = path.join(os.tmpdir(), 'musicapp-uploads');
+
+const ensureDirectory = (dirPath) => {
+    try {
+        fs.mkdirSync(dirPath, { recursive: true });
+        return dirPath;
+    } catch (error) {
+        console.warn(`Unable to create directory ${dirPath}:`, error.message);
+        try {
+            fs.mkdirSync(fallbackUploadsDirectory, { recursive: true });
+            return fallbackUploadsDirectory;
+        } catch (fallbackError) {
+            console.warn(`Unable to create fallback directory ${fallbackUploadsDirectory}:`, fallbackError.message);
+            return fallbackUploadsDirectory;
+        }
+    }
+};
+
+let uploadsDirectory = path.join(publicDirectory, 'uploads');
 
 app.use(cors());
 app.use(express.json({ limit: '5mb' }));
 
-fs.mkdirSync(publicDirectory, { recursive: true });
-fs.mkdirSync(uploadsDirectory, { recursive: true });
+try {
+    fs.mkdirSync(publicDirectory, { recursive: true });
+} catch (error) {
+    console.warn(`Unable to create public directory ${publicDirectory}:`, error.message);
+}
+
+uploadsDirectory = ensureDirectory(uploadsDirectory);
 
 // Servir les fichiers statiques depuis le dossier public
 app.use(express.static(publicDirectory));
