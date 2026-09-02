@@ -1,0 +1,87 @@
+.philosophy {
+  position: relative;
+  padding-top: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0));
+}
+
+.philosophy-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 5rem 0 4rem;
+}
+
+.philosophy-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 11rem;
+  opacity: 0.9;
+}
+
+.philosophy-orb {
+  position: relative;
+  width: min(42rem, 72vw);
+  height: 10rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(176, 224, 255, 0.5) 12%, rgba(142, 179, 229, 0.2) 24%, rgba(255, 255, 255, 0) 68%);
+  filter: blur(2px);
+  transform: scaleX(1.4);
+  opacity: 0.8;
+}
+
+.philosophy-wave {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(52rem, 82vw);
+  height: 6rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 1.2rem rgba(255, 255, 255, 0.04);
+}
+
+.philosophy-wave::before,
+.philosophy-wave::after {
+  content: "";
+  position: absolute;
+  inset: 18% 14%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.philosophy-wave::after {
+  inset: 38% 26%;
+  border-color: rgba(172, 204, 255, 0.18);
+}
+
+.philosophy-copy {
+  max-width: 72rem;
+}
+
+.philosophy-copy h2 {
+  margin-top: 1rem;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: clamp(3.3rem, 8vw, 9.5rem);
+  font-weight: 700;
+  letter-spacing: -0.08em;
+  line-height: 0.86;
+  text-transform: none;
+}
+
+.philosophy-support {
+  max-width: 42rem;
+  margin-left: auto;
+  padding-top: 0.5rem;
+}
+
+.philosophy-support .lead {
+  font-size: clamp(1.04rem, 1.7vw, 1.45rem);
+  line-height: 1.5;
+  color: rgba(247, 244, 239, 0.7);
+}

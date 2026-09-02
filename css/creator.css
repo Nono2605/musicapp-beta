@@ -1,0 +1,113 @@
+.creator-wrap {
+  position: relative;
+}
+
+.creator-panel {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 2rem;
+  align-items: center;
+  padding: clamp(2rem, 5vw, 3rem);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+  border: 1px solid var(--color-line);
+}
+
+.creator-copy {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.creator-copy p {
+  max-width: 32rem;
+  color: rgba(247, 244, 239, 0.72);
+}
+
+.creator-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.creator-visual {
+  position: relative;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.creator-card {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.2rem 1.2rem 1rem;
+  border-radius: 1.6rem;
+  background: rgba(11, 16, 32, 0.8);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 26px 55px rgba(6, 10, 18, 0.25);
+}
+
+.creator-card .line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: rgba(247, 244, 239, 0.8);
+}
+
+.creator-card .line strong {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 239, 0.6);
+}
+
+.creator-card .amount {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.creator-card .meter {
+  position: relative;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.creator-card .meter span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 72%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-strong) 100%);
+}
+
+.creator-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(247, 244, 239, 0.8);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.meta-pill::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--color-accent-strong);
+}
