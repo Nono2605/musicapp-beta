@@ -120,11 +120,15 @@ function initParticleSphere() {
       const y = Math.cos(theta) * Math.sin(phi) * rVar;
       const z = Math.sin(theta) * rVar;
 
+      // normalized direction (unit) for pulsation
+      const nx = x / rVar;
+      const ny = y / rVar;
+      const nz = z / rVar;
+
       // color by latitude & index
       const hue = (i / particleCount) * 360; // full hue sweep
-      const color = `hsl(${hue}, 85%, 60%)`;
 
-      particles.push({ x, y, z, baseR: rVar, hue, size: rand(0.6, 1.6) });
+      particles.push({ x, y, z, nx, ny, nz, baseR: rVar, hue, size: rand(0.6, 1.6) });
     }
   }
 
@@ -162,7 +166,14 @@ function initParticleSphere() {
     // draw orbits / trails: optional faint rings
     // draw particles sorted by depth for proper additive blending
     const projected = particles.map((p) => {
-      return { p, proj: project(p, rotY, rotX, fov, perspective) };
+      // pulsation per-particle: base radius modulated by sin waves
+      const pulseAmp = 0.06; // overall amplitude
+      const pulse = 1 + Math.sin(t * 2.0 + (p.hue * Math.PI / 180) * 0.5) * pulseAmp + Math.sin(t * 0.36 + p.hue * 0.01) * 0.01;
+      const px = p.nx * p.baseR * pulse;
+      const py = p.ny * p.baseR * pulse;
+      const pz = p.nz * p.baseR * pulse;
+      const pp = { x: px, y: py, z: pz };
+      return { p, proj: project(pp, rotY, rotX, fov, perspective) };
     });
 
     projected.sort((a,b) => (b.p.z - a.p.z));
