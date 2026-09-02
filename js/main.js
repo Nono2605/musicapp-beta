@@ -61,15 +61,19 @@ function loadScript(src) {
     if (window.THREE) return resolve();
     const s = document.createElement('script');
     s.src = src;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error('Failed to load ' + src));
+    s.onload = () => { console.log('Loaded script:', src); resolve(); };
+    s.onerror = () => { console.error('Failed to load script:', src); reject(new Error('Failed to load ' + src)); };
     document.head.appendChild(s);
   });
 }
 
 function initThreeParticles() {
+  console.log('initThreeParticles: attempting to initialize three.js path');
   const container = document.getElementById('three-root');
-  if (!container) return Promise.reject(new Error('No container'));
+  if (!container) {
+    console.error('initThreeParticles: no #three-root container found');
+    return Promise.reject(new Error('No container'));
+  }
 
   return new Promise((resolve) => {
     const THREE = window.THREE;
@@ -173,11 +177,19 @@ function initGraphics() {
       initThreeParticles().catch(() => { /* fallback handled below */ });
     } else {
       // fallback: Canvas2D particle globe
+      console.warn('three.js not available — starting Canvas2D fallback');
       // Keep existing canvas implementation (initParticleSphere code)
       // Reuse previous function body from earlier Canvas2D implementation
 
       const container = document.getElementById('three-root');
-      if (!container) return;
+      if (!container) {
+        console.error('Canvas2D fallback: no #three-root container found');
+        return;
+      }
+
+      // add a visible outline temporarily to help debug rendering placement
+      container.style.outline = '3px dashed rgba(255,85,135,0.9)';
+      container.style.outlineOffset = '6px';
 
       const canvas = document.createElement('canvas');
       canvas.style.display = 'block';
