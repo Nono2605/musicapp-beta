@@ -68,7 +68,7 @@ function loadScript(src) {
 }
 
 function initThreeParticles() {
-  console.log('initThreeParticles: attempting to initialize three.js path');
+  console.log('initThreeParticles: attempting to initialize three.js flow-sphere');
   const container = document.getElementById('three-root');
   if (!container) {
     console.error('initThreeParticles: no #three-root container found');
@@ -85,79 +85,152 @@ function initThreeParticles() {
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
-    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.z = 3.5;
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 3.4);
 
-    const light = new THREE.PointLight(0xffffff, 0.9);
-    light.position.set(5, 5, 5);
-    scene.add(light);
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(1.02, 96, 96),
+      new THREE.MeshBasicMaterial({
+        color: 0x04070d,
+        transparent: true,
+        opacity: 0.78,
+      })
+    );
+    scene.add(sphere);
 
-    // particles
-    let particleCount = Math.max(1200, Math.floor((container.clientWidth * container.clientHeight) / 100));
-    particleCount = Math.min(particleCount, 8000);
+    const vortices = [
+      { position: new THREE.Vector3(0.15, 0.82, 0.54).normalize(), strength: 1.8, sharpness: 3.2 },
+      { position: new THREE.Vector3(-0.78, 0.22, 0.58).normalize(), strength: -1.3, sharpness: 3.8 },
+      { position: new THREE.Vector3(0.72, -0.35, 0.58).normalize(), strength: 1.5, sharpness: 4.0 },
+      { position: new THREE.Vector3(-0.35, -0.72, -0.58).normalize(), strength: -1.8, sharpness: 3.0 },
+      { position: new THREE.Vector3(0.65, 0.48, -0.58).normalize(), strength: 0.9, sharpness: 4.5 },
+    ];
 
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-
-    const radius = 1.0;
-    const thickness = 0.18;
-    for (let i = 0; i < particleCount; i++) {
-      const u = Math.random();
-      const v = Math.random();
-      const theta = Math.acos(2 * u - 1) - Math.PI / 2;
-      const phi = 2 * Math.PI * v;
-      const rVar = radius + (Math.random() - 0.5) * thickness;
-      const x = Math.cos(theta) * Math.cos(phi) * rVar;
-      const y = Math.cos(theta) * Math.sin(phi) * rVar;
-      const z = Math.sin(theta) * rVar;
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
-
-      // color by latitude
-      const hue = (i / particleCount) * 360;
-      const col = new THREE.Color().setHSL((hue / 360) * 0.75 + 0.05, 0.9, 0.6);
-      colors[i * 3] = col.r;
-      colors[i * 3 + 1] = col.g;
-      colors[i * 3 + 2] = col.b;
+    const temp = new THREE.Vector3();
+    function field(p) {
+      const velocity = new THREE.Vector3();
+      for (const vortex of vortices) {
+        const c = vortex.position;
+        const dot = p.dot(c);
+        const influence = Math.exp(vortex.sharpness * (dot - 1));
+        temp.crossVectors(p, c);
+        velocity.addScaledVector(temp, vortex.strength * influence);
+      }
+      return velocity.normalize();
     }
 
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    function integrate(start, direction, steps = 260) {
+      const points = [];
+      let p = start.clone();
+      for (let i = 0; i < steps; i++) {
+        points.push(p.clone());
+        const v = field(p);
+        p.addScaledVector(v, 0.018 * direction);
+        p.normalize().multiplyScalar(1.02);
+      }
+      return points;
+    }
 
-    const material = new THREE.PointsMaterial({ size: 0.01 * Math.min(container.clientWidth, container.clientHeight) / 200, vertexColors: true, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthTest: true });
+    const linesGroup = new THREE.Group();
+    scene.add(linesGroup);
 
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: 0x7b7cff,
+      transparent: true,
+      opacity: 0.32,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
 
-    // heartbeat settings
-    const bpm = 60; // default heartbeat
-    const freq = bpm / 60; // Hz
-    const amp = 0.08; // amplitude of scale pulse
+    const particlePositions = [];
+    const lineCount = Math.min(Math.max(260, Math.floor((container.clientWidth * container.clientHeight) / 5)), 600);
 
-    // resize handler
+    for (let i = 0; i < lineCount; i++) {
+      const u = Math.random() * 2 - 1;
+      const theta = Math.random() * Math.PI * 2;
+      const s = Math.sqrt(1 - u * u);
+      const start = new THREE.Vector3(s * Math.cos(theta), u, s * Math.sin(theta));
+
+      const forward = integrate(start, 1, 180);
+      const backward = integrate(start, -1, 100);
+      backward.reverse();
+
+      const points = [...backward, ...forward];
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      linesGroup.add(new THREE.Line(geometry, lineMaterial));
+
+      for (let j = 15; j < points.length; j += 18) {
+        if (Math.random() < 0.34) {
+          const p = points[j];
+          particlePositions.push(p.x, p.y, p.z);
+        }
+      }
+    }
+
+    const particleGeometry = new THREE.BufferGeometry();
+    particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(particlePositions, 3));
+
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.017,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      sizeAttenuation: true,
+    });
+
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    const haloMaterial = new THREE.ShaderMaterial({
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      uniforms: { color: { value: new THREE.Color(0x4f46ff) } },
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 color;
+        varying vec3 vNormal;
+        void main() {
+          float fresnel = pow(1.0 - abs(vNormal.z), 4.0);
+          gl_FragColor = vec4(color, fresnel * 0.28);
+        }
+      `,
+    });
+
+    const halo = new THREE.Mesh(new THREE.SphereGeometry(1.012, 96, 96), haloMaterial);
+    scene.add(halo);
+
+    const clock = new THREE.Clock();
+    const bpm = 60;
+    const heartbeatHz = bpm / 60;
+
     function onResize() {
       const w = container.clientWidth;
       const h = container.clientHeight;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      material.size = 0.01 * Math.min(w, h) / 200;
     }
     window.addEventListener('resize', onResize);
 
-    let t0 = performance.now();
-    function animate(now) {
-      const t = (now - t0) / 1000;
-      // heartbeat pulse (smoothed)
-      const pulse = 1 + Math.sin(t * Math.PI * 2 * freq) * amp + 0.01 * Math.sin(t * 0.6);
-      points.scale.setScalar(pulse);
-
-      // slow rotation
-      points.rotation.y = t * 0.08;
-      points.rotation.x = Math.sin(t * 0.12) * 0.03;
-
+    function animate() {
+      const t = clock.getElapsedTime();
+      const pulse = 1 + Math.sin(t * Math.PI * 2 * heartbeatHz) * 0.08 + 0.01 * Math.sin(t * 0.6);
+      linesGroup.rotation.y = t * 0.025;
+      particles.rotation.y = t * 0.025;
+      halo.rotation.y = t * 0.025;
+      linesGroup.scale.setScalar(pulse);
+      particles.scale.setScalar(pulse);
+      halo.scale.setScalar(pulse * 1.03);
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
@@ -170,7 +243,7 @@ function initThreeParticles() {
 // Boot: try local three, then CDN, else fallback to Canvas2D particle sphere
 function initGraphics() {
   const local = loadScript('./js/three.min.js').then(() => window.THREE).catch(() => null);
-  const cdn = loadScript('https://unpkg.com/three@0.161.0/build/three.min.js').then(() => window.THREE).catch(() => null);
+  const cdn = loadScript('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js').then(() => window.THREE).catch(() => null);
 
   Promise.all([local.catch(() => null), cdn.catch(() => null)]).then((results) => {
     if (window.THREE) {
