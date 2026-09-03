@@ -260,10 +260,6 @@ function initGraphics() {
         return;
       }
 
-      // add a visible outline temporarily to help debug rendering placement
-      container.style.outline = '3px dashed rgba(255,85,135,0.9)';
-      container.style.outlineOffset = '6px';
-
       const canvas = document.createElement('canvas');
       canvas.style.display = 'block';
       canvas.style.width = '100%';
