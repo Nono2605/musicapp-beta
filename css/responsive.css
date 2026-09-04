@@ -4,6 +4,8 @@
   .creator-panel,
   .grid-3,
   .model-grid,
+  .transparency-inner,
+  .discovery-stage,
   .footer-grid {
     grid-template-columns: 1fr;
   }
@@ -15,6 +17,37 @@
 
   .hero-visual {
     min-height: 24rem;
+  }
+
+  .philosophy .container,
+  .ecosystem .container,
+  .discovery .container,
+  .transparency .container,
+  .creator-wrap .container,
+  .final-cta .container {
+    width: min(100%, calc(var(--container-width) + 12px));
+  }
+
+  .philosophy-support {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .philosophy-copy h2,
+  .ecosystem-head h2,
+  .discovery-header h2,
+  .transparency-copy h2,
+  .creator-copy h2,
+  .final-cta-copy h2 {
+    max-width: none;
+  }
+
+  .feature-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .feature-cover {
+    order: -1;
   }
 
   .navbar {
@@ -73,6 +106,7 @@
 
   .hero-actions,
   .creator-actions,
+  .final-cta-actions,
   .nav-actions {
     flex-direction: column;
     align-items: stretch;
@@ -87,13 +121,130 @@
     justify-content: space-between;
   }
 
-  .section-head {
+  .section-head,
+  .ecosystem-head,
+  .discovery-header {
     display: grid;
     gap: 0.8rem;
+  }
+
+  .model-grid,
+  .feature-rail,
+  .studio-grid,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-card {
+    min-height: 22rem;
+  }
+
+  .discovery-stage {
+    margin: 0;
+  }
+
+  .feature-cover {
+    transform: none;
+  }
+
+  .cover-art {
+    height: 21rem;
+  }
+
+  .transparency-copy p,
+  .creator-copy p {
+    font-size: 1rem;
+  }
+
+  .analysis-viewport {
+    height: 15rem;
+  }
+
+  .studio-shell {
+    padding: 1rem;
+  }
+
+  .final-cta-inner {
+    min-height: 22rem;
+  }
+
+  .cta-ring {
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .orb-one {
+    width: 18rem;
+    height: 18rem;
+  }
+
+  .orb-two {
+    width: 14rem;
+    height: 14rem;
   }
 
   .footer-bottom {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-header {
+    padding-inline: 0;
+  }
+
+  .navbar {
+    min-height: 4.8rem;
+    gap: 0.7rem;
+  }
+
+  .logo-text {
+    letter-spacing: 0.14em;
+  }
+
+  .hero-copy h1,
+  .philosophy-copy h2,
+  .ecosystem-head h2,
+  .discovery-header h2,
+  .transparency-copy h2,
+  .creator-copy h2,
+  .final-cta-copy h2 {
+    letter-spacing: -0.07em;
+  }
+
+  .hero-copy .lead,
+  .philosophy-support .lead,
+  .creator-copy p,
+  .transparency-copy p {
+    font-size: 0.98rem;
+  }
+
+  .hero-metrics {
+    gap: 1rem;
+  }
+
+  .hero-metrics strong {
+    font-size: 1.6rem;
+  }
+
+  .mini-panel {
+    grid-template-columns: 4.5rem 1fr;
+    padding: 0.6rem 0.7rem;
+  }
+
+  .mini-art {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .flow-node {
+    width: 5.8rem;
+    height: 2.5rem;
+    font-size: 0.62rem;
+  }
+
+  .final-cta-copy p {
+    font-size: 1.1rem;
   }
 }
