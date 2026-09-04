@@ -16,8 +16,8 @@
     { id: 'discover-surface', x: 78, y: 24, scale: 0.2, opacity: 0.4 },
     { id: 'transparency', x: 80, y: 52, scale: 0.65, opacity: 0.4 },
     { id: 'creators', x: 82, y: 42, scale: 0.6, opacity: 0.38 },
-    { id: 'final-cta', x: 50, y: 16, scale: 0.55, opacity: 0.5 },
-    { id: 'site-footer', x: 50, y: 16, scale: 0.55, opacity: 0 },
+    { id: 'final-cta', x: 50, y: 47, scale: 0.8, opacity: 0.5 },
+    { id: 'site-footer', x: 50, y: 47, scale: 0.8, opacity: 0 },
   ];
 
   // On narrow viewports every section collapses to a single stacked column,
