@@ -96,12 +96,12 @@
 .card-visual {
   position: relative;
   height: 20rem;
-  margin: 0.2rem 0.4rem 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.3rem;
+  margin: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 1.2rem;
   overflow: hidden;
   background-color: rgba(10, 16, 26, 0.78);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .info-card-ai .card-visual {
