@@ -92,21 +92,29 @@ function initThreeParticles() {
     const THREE = window.THREE;
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    // transparent background so the canvas never flashes opaque black
+    renderer.setClearColor(0x000000, 0);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight, false);
+    // make the canvas fill the card (CSS + pixel size kept in sync)
     renderer.domElement.style.display = 'block';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
     camera.position.set(0, 0, 3.4);
+    camera.lookAt(0, 0, 0);
 
+    // slightly brighter, lower-opacity shell so the halo color is readable and
+    // the sphere doesn't appear as a solid black object when lighting/halo vary
     const sphere = new THREE.Mesh(
       new THREE.SphereGeometry(1.02, 96, 96),
       new THREE.MeshBasicMaterial({
-        color: 0x04070d,
+        color: 0x0a1230,
         transparent: true,
-        opacity: 0.78,
+        opacity: 0.28,
       })
     );
     scene.add(sphere);
@@ -147,13 +155,18 @@ function initThreeParticles() {
     const linesGroup = new THREE.Group();
     scene.add(linesGroup);
 
+    // Enable vertex colors so we can modulate brightness per-vertex for passing waves
     const lineMaterial = new THREE.LineBasicMaterial({
       color: 0x7b7cff,
+      vertexColors: true,
       transparent: true,
       opacity: 0.32,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
+
+    // keep a list of line metadata for per-vertex updates (colors, geometry)
+    const linesMeta = [];
 
     const particlePositions = [];
     const lineCount = Math.min(Math.max(260, Math.floor((container.clientWidth * container.clientHeight) / 5)), 600);
@@ -170,7 +183,25 @@ function initThreeParticles() {
 
       const points = [...backward, ...forward];
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
-      linesGroup.add(new THREE.Line(geometry, lineMaterial));
+
+      // create a per-vertex color attribute (base color scaled) so waves can modulate it
+      const colors = new Float32Array(points.length * 3);
+      // base RGB for lines (normalized 0..1)
+      const baseR = 0.486; // 0x7b7cff ~ rgb(123,124,255) -> normalized
+      const baseG = 0.486;
+      const baseB = 1.0;
+      for (let k = 0; k < points.length; k++) {
+        colors[k * 3 + 0] = baseR;
+        colors[k * 3 + 1] = baseG;
+        colors[k * 3 + 2] = baseB;
+      }
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+      const line = new THREE.Line(geometry, lineMaterial);
+      linesGroup.add(line);
+
+      // store for updates (geometry + base color)
+      linesMeta.push({ geometry, baseColor: [baseR, baseG, baseB], points });
 
       for (let j = 15; j < points.length; j += 18) {
         if (Math.random() < 0.34) {
@@ -180,8 +211,16 @@ function initThreeParticles() {
       }
     }
 
+    // particles that act as luminous 'stars' (with velocities and home positions for ejection)
     const particleGeometry = new THREE.BufferGeometry();
-    particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(particlePositions, 3));
+    const posArray = new Float32Array(particlePositions);
+    const velArray = new Float32Array(posArray.length); // zeros
+    const homeArray = new Float32Array(posArray.length);
+    for (let i = 0; i < posArray.length; i++) homeArray[i] = posArray[i];
+
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particleGeometry.setAttribute('velocity', new THREE.BufferAttribute(velArray, 3));
+    particleGeometry.setAttribute('home', new THREE.BufferAttribute(homeArray, 3));
 
     const particleMaterial = new THREE.PointsMaterial({
       color: 0xffffff,
@@ -194,13 +233,18 @@ function initThreeParticles() {
     });
 
     const particles = new THREE.Points(particleGeometry, particleMaterial);
+    // stash references used by the audio-reactive step
+    particles.userData = { posArray, velArray, homeArray };
     scene.add(particles);
 
     const haloMaterial = new THREE.ShaderMaterial({
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      uniforms: { color: { value: new THREE.Color(0x4f46ff) } },
+      uniforms: {
+        color: { value: new THREE.Color(0x4f46ff) },
+        intensity: { value: 0.28 }
+      },
       vertexShader: `
         varying vec3 vNormal;
         void main() {
@@ -211,10 +255,11 @@ function initThreeParticles() {
       `,
       fragmentShader: `
         uniform vec3 color;
+        uniform float intensity;
         varying vec3 vNormal;
         void main() {
           float fresnel = pow(1.0 - abs(vNormal.z), 4.0);
-          gl_FragColor = vec4(color, fresnel * 0.28);
+          gl_FragColor = vec4(color, fresnel * intensity);
         }
       `,
     });
@@ -225,6 +270,11 @@ function initThreeParticles() {
     // audio-demo / heartbeat variables (no external audio connected)
     let smoothedBass = 0;
     let smoothedVolume = 0;
+
+    // smoothing state for visual transitions
+    let smoothedHeartbeat = 0;
+    let smoothedLineOpacity = lineMaterial.opacity;
+    let smoothedHaloIntensity = haloMaterial.uniforms.intensity.value;
 
     function updateAudioDemo(now) {
       const t = now / 1000;
@@ -243,30 +293,28 @@ function initThreeParticles() {
     }
     window.addEventListener('resize', onResize);
 
+    // simplified animation: no pulsations, slow continuous rotation
     const clock = new THREE.Clock();
     function animate() {
       const t = clock.getElapsedTime();
 
-      // update demo audio state
-      updateAudioDemo(performance.now());
-      const heartbeat = smoothedBass; // 0..1
+      // slow rotation (radians per second)
+      const rotSpeed = 0.06; // adjust for desired speed
+      linesGroup.rotation.y = t * rotSpeed;
+      particles.rotation.y = t * rotSpeed * 0.98;
+      halo.rotation.y = t * rotSpeed * 1.02;
 
-      // pulse influenced by heartbeat
-      const pulse = 1 + heartbeat * 0.12 + 0.01 * Math.sin(t * 0.6);
+      // keep constant visual levels
+      lineMaterial.opacity = 0.32;
+      if (typeof cores !== 'undefined' && cores && cores.material) {
+        cores.material.size = 0.028;
+        cores.material.opacity = 0.65;
+      }
 
-      // apply transform and rotation
-      linesGroup.rotation.y = t * 0.025;
-      particles.rotation.y = t * 0.025;
-      halo.rotation.y = t * 0.025;
-
-      linesGroup.scale.setScalar(pulse);
-      particles.scale.setScalar(pulse);
-      halo.scale.setScalar(pulse * 1.02);
-
-      // dynamic properties
-      lineMaterial.opacity = 0.20 + heartbeat * 0.30;
-      cores.material.size = 0.028 + heartbeat * 0.055;
-      cores.material.opacity = 0.65 + heartbeat * 0.35;
+      // gently restore halo intensity to a comfortable baseline
+      if (haloMaterial.uniforms && haloMaterial.uniforms.intensity) {
+        haloMaterial.uniforms.intensity.value += (0.28 - haloMaterial.uniforms.intensity.value) * 0.08;
+      }
 
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
@@ -279,20 +327,43 @@ function initThreeParticles() {
 
 // Boot: try local three, then CDN, else fallback to Canvas2D particle sphere
 function initGraphics() {
+  // add a small debug overlay to show status directly on the page
+  const visualCard = document.querySelector('.visual-card') || document.body;
+  let debugOverlay = document.getElementById('visual-debug');
+  if (!debugOverlay) {
+    debugOverlay = document.createElement('div');
+    debugOverlay.id = 'visual-debug';
+    debugOverlay.style.position = 'absolute';
+    debugOverlay.style.left = '12px';
+    debugOverlay.style.top = '12px';
+    debugOverlay.style.zIndex = '9999';
+    debugOverlay.style.padding = '6px 10px';
+    debugOverlay.style.borderRadius = '8px';
+    debugOverlay.style.background = 'rgba(0,0,0,0.6)';
+    debugOverlay.style.color = '#fff';
+    debugOverlay.style.fontSize = '12px';
+    debugOverlay.style.fontFamily = 'system-ui, sans-serif';
+    debugOverlay.textContent = 'visual: checking three.js...';
+    visualCard.appendChild(debugOverlay);
+  }
+
   // Try absolute local path first in case relative URLs resolve oddly in the preview server
-  // Try bridge module first (attaches THREE to window), then fall back to other files
+  // Try UMD local first (guaranteed global), then bridge module, then other fallbacks
+  const tryUmd = loadScript('/js/three.umd.js').then(() => window.THREE).catch(() => null);
   const tryBridge = loadModule('/js/three-bridge.js').then(() => window.THREE).catch(() => null);
   const tryLocalAbsolute = loadScript('/js/three.min.js').then(() => window.THREE).catch(() => null);
   const tryLocalRelative = loadScript('./js/three.min.js').then(() => window.THREE).catch(() => null);
   const cdn = loadScript('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js').then(() => window.THREE).catch(() => null);
 
-  Promise.all([tryBridge.catch(() => null), tryLocalAbsolute.catch(() => null), tryLocalRelative.catch(() => null), cdn.catch(() => null)]).then((results) => {
+  Promise.all([tryUmd.catch(() => null), tryBridge.catch(() => null), tryLocalAbsolute.catch(() => null), tryLocalRelative.catch(() => null), cdn.catch(() => null)]).then((results) => {
     if (window.THREE) {
       console.log('Three.js available, initializing Three path');
-      initThreeParticles().catch((err) => { console.error('initThreeParticles failed:', err); /* fallback handled below */ });
+      debugOverlay.textContent = 'visual: Three.js available — starting WebGL';
+      initThreeParticles().catch((err) => { console.error('initThreeParticles failed:', err); debugOverlay.textContent = 'visual: three init failed — falling back'; /* fallback handled below */ });
     } else {
       // fallback: Canvas2D particle globe
       console.warn('three.js not available — starting Canvas2D fallback');
+      debugOverlay.textContent = 'visual: three.js NOT available — Canvas fallback';
       // Keep existing canvas implementation (initParticleSphere code)
       // Reuse previous function body from earlier Canvas2D implementation
 
