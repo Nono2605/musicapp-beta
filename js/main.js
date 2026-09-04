@@ -67,6 +67,19 @@ function loadScript(src) {
   });
 }
 
+// load an ES module via script[type=module]
+function loadModule(src) {
+  return new Promise((resolve, reject) => {
+    if (window.THREE) return resolve();
+    const s = document.createElement('script');
+    s.type = 'module';
+    s.src = src;
+    s.onload = () => { console.log('Loaded module:', src); resolve(); };
+    s.onerror = (e) => { console.error('Failed to load module:', src, e); reject(new Error('Failed to load module ' + src)); };
+    document.head.appendChild(s);
+  });
+}
+
 function initThreeParticles() {
   console.log('initThreeParticles: attempting to initialize three.js flow-sphere');
   const container = document.getElementById('three-root');
@@ -267,11 +280,13 @@ function initThreeParticles() {
 // Boot: try local three, then CDN, else fallback to Canvas2D particle sphere
 function initGraphics() {
   // Try absolute local path first in case relative URLs resolve oddly in the preview server
+  // Try bridge module first (attaches THREE to window), then fall back to other files
+  const tryBridge = loadModule('/js/three-bridge.js').then(() => window.THREE).catch(() => null);
   const tryLocalAbsolute = loadScript('/js/three.min.js').then(() => window.THREE).catch(() => null);
   const tryLocalRelative = loadScript('./js/three.min.js').then(() => window.THREE).catch(() => null);
   const cdn = loadScript('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js').then(() => window.THREE).catch(() => null);
 
-  Promise.all([tryLocalAbsolute.catch(() => null), tryLocalRelative.catch(() => null), cdn.catch(() => null)]).then((results) => {
+  Promise.all([tryBridge.catch(() => null), tryLocalAbsolute.catch(() => null), tryLocalRelative.catch(() => null), cdn.catch(() => null)]).then((results) => {
     if (window.THREE) {
       console.log('Three.js available, initializing Three path');
       initThreeParticles().catch((err) => { console.error('initThreeParticles failed:', err); /* fallback handled below */ });
