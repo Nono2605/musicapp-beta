@@ -1,1 +1,1 @@
-window.BRAND = 'SPHERE';
+window.BRAND = 'Sphere';

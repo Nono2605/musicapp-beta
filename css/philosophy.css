@@ -3,15 +3,63 @@
   padding-top: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.012), rgba(255, 255, 255, 0) 26%, rgba(255, 255, 255, 0.012) 100%);
+  overflow: hidden;
+}
+
+.philosophy::before {
+  content: "";
+  position: absolute;
+  inset: 2.5rem 10% auto 10%;
+  height: 12rem;
+  background:
+    radial-gradient(ellipse at center, rgba(214, 200, 183, 0.18), transparent 42%),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.12) 8%,
+      transparent 10%,
+      rgba(255, 255, 255, 0.12) 18%,
+      transparent 20%,
+      rgba(255, 255, 255, 0.12) 30%,
+      transparent 32%,
+      rgba(255, 255, 255, 0.12) 42%,
+      transparent 44%,
+      rgba(255, 255, 255, 0.12) 56%,
+      transparent 58%,
+      rgba(255, 255, 255, 0.12) 68%,
+      transparent 70%,
+      rgba(255, 255, 255, 0.12) 82%,
+      transparent 84%,
+      rgba(255, 255, 255, 0.12) 92%,
+      transparent 100%
+    );
+  opacity: 0.42;
+  filter: blur(1.5px);
+  pointer-events: none;
+}
+
+.philosophy::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6.8rem;
+  width: min(68rem, 72vw);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  opacity: 0.68;
+  pointer-events: none;
 }
 
 .philosophy-inner {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
-  padding: 5rem 0 4rem;
+  gap: 2rem;
+  padding: 4.5rem 0 4rem;
+  z-index: 1;
 }
 
 .philosophy-visual {
@@ -20,16 +68,18 @@
 
 .philosophy-copy {
   max-width: 72rem;
+  position: relative;
 }
 
 .philosophy-copy h2 {
   margin-top: 1rem;
   font-family: "Inter", "Segoe UI", sans-serif;
-  font-size: clamp(3.3rem, 8vw, 9.5rem);
+  font-size: clamp(3.5rem, 8vw, 10rem);
   font-weight: 700;
-  letter-spacing: -0.08em;
-  line-height: 0.86;
+  letter-spacing: -0.085em;
+  line-height: 0.82;
   text-transform: none;
+  max-width: 16ch;
 }
 
 .philosophy-support {
@@ -39,7 +89,8 @@
 }
 
 .philosophy-support .lead {
-  font-size: clamp(1.04rem, 1.7vw, 1.45rem);
-  line-height: 1.5;
-  color: rgba(247, 244, 239, 0.7);
+  font-size: clamp(1.08rem, 1.8vw, 1.52rem);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: rgba(247, 244, 239, 0.74);
 }
