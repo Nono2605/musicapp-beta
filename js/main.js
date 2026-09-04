@@ -266,12 +266,15 @@ function initThreeParticles() {
 
 // Boot: try local three, then CDN, else fallback to Canvas2D particle sphere
 function initGraphics() {
-  const local = loadScript('./js/three.min.js').then(() => window.THREE).catch(() => null);
+  // Try absolute local path first in case relative URLs resolve oddly in the preview server
+  const tryLocalAbsolute = loadScript('/js/three.min.js').then(() => window.THREE).catch(() => null);
+  const tryLocalRelative = loadScript('./js/three.min.js').then(() => window.THREE).catch(() => null);
   const cdn = loadScript('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js').then(() => window.THREE).catch(() => null);
 
-  Promise.all([local.catch(() => null), cdn.catch(() => null)]).then((results) => {
+  Promise.all([tryLocalAbsolute.catch(() => null), tryLocalRelative.catch(() => null), cdn.catch(() => null)]).then((results) => {
     if (window.THREE) {
-      initThreeParticles().catch(() => { /* fallback handled below */ });
+      console.log('Three.js available, initializing Three path');
+      initThreeParticles().catch((err) => { console.error('initThreeParticles failed:', err); /* fallback handled below */ });
     } else {
       // fallback: Canvas2D particle globe
       console.warn('three.js not available — starting Canvas2D fallback');
