@@ -105,15 +105,15 @@
 }
 
 .info-card-ai .card-visual {
-  background: url("../assets/images/ai-ecosystem.png") center center / cover no-repeat;
+  background: url("../assets/images/ai-ecosystem.png") center center / contain no-repeat;
 }
 
 .info-card-hybrid .card-visual {
-  background: url("../assets/images/hybrid-ecosystem.png") center center / cover no-repeat;
+  background: url("../assets/images/hybrid-ecosystem.png") center center / contain no-repeat;
 }
 
 .info-card-system .card-visual {
-  background: url("../assets/images/system-ecosystem.png") center center / cover no-repeat;
+  background: url("../assets/images/system-ecosystem.png") center center / contain no-repeat;
 }
 
 .info-card-ai .card-visual::before,
