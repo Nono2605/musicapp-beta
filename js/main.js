@@ -358,7 +358,8 @@ function initGraphics() {
   Promise.all([tryUmd.catch(() => null), tryBridge.catch(() => null), tryLocalAbsolute.catch(() => null), tryLocalRelative.catch(() => null), cdn.catch(() => null)]).then((results) => {
     if (window.THREE) {
       console.log('Three.js available, initializing Three path');
-      debugOverlay.textContent = 'visual: Three.js available — starting WebGL';
+      // remove the debug overlay once Three.js is running so the visual is clean
+      if (debugOverlay && debugOverlay.parentNode) debugOverlay.parentNode.removeChild(debugOverlay);
       initThreeParticles().catch((err) => { console.error('initThreeParticles failed:', err); debugOverlay.textContent = 'visual: three init failed — falling back'; /* fallback handled below */ });
     } else {
       // fallback: Canvas2D particle globe
