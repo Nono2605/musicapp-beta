@@ -209,9 +209,17 @@ function initThreeParticles() {
     const halo = new THREE.Mesh(new THREE.SphereGeometry(1.012, 96, 96), haloMaterial);
     scene.add(halo);
 
-    const clock = new THREE.Clock();
-    const bpm = 60;
-    const heartbeatHz = bpm / 60;
+    // audio-demo / heartbeat variables (no external audio connected)
+    let smoothedBass = 0;
+    let smoothedVolume = 0;
+
+    function updateAudioDemo(now) {
+      const t = now / 1000;
+      // demo oscillation: slow breathing + occasional stronger pulse
+      smoothedVolume = 0.5 + Math.sin(t * 1.6) * 0.5;
+      const targetBass = Math.pow(smoothedVolume, 3);
+      smoothedBass += (targetBass - smoothedBass) * 0.12;
+    }
 
     function onResize() {
       const w = container.clientWidth;
@@ -222,15 +230,31 @@ function initThreeParticles() {
     }
     window.addEventListener('resize', onResize);
 
+    const clock = new THREE.Clock();
     function animate() {
       const t = clock.getElapsedTime();
-      const pulse = 1 + Math.sin(t * Math.PI * 2 * heartbeatHz) * 0.08 + 0.01 * Math.sin(t * 0.6);
+
+      // update demo audio state
+      updateAudioDemo(performance.now());
+      const heartbeat = smoothedBass; // 0..1
+
+      // pulse influenced by heartbeat
+      const pulse = 1 + heartbeat * 0.12 + 0.01 * Math.sin(t * 0.6);
+
+      // apply transform and rotation
       linesGroup.rotation.y = t * 0.025;
       particles.rotation.y = t * 0.025;
       halo.rotation.y = t * 0.025;
+
       linesGroup.scale.setScalar(pulse);
       particles.scale.setScalar(pulse);
-      halo.scale.setScalar(pulse * 1.03);
+      halo.scale.setScalar(pulse * 1.02);
+
+      // dynamic properties
+      lineMaterial.opacity = 0.20 + heartbeat * 0.30;
+      cores.material.size = 0.028 + heartbeat * 0.055;
+      cores.material.opacity = 0.65 + heartbeat * 0.35;
+
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
