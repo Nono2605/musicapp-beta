@@ -18,9 +18,17 @@
     <link rel="stylesheet" href="./css/philosophy.css" />
     <link rel="stylesheet" href="./css/creator.css" />
     <link rel="stylesheet" href="./css/footer.css" />
+    <link rel="stylesheet" href="./css/reveal.css" />
+    <link rel="stylesheet" href="./css/sphere-stage.css" />
     <link rel="stylesheet" href="./css/responsive.css" />
   </head>
   <body>
+    <div id="sphere-stage" class="sphere-stage" aria-hidden="true">
+      <div id="sphere-visual" class="sphere-visual">
+        <div id="three-root" class="three-root"></div>
+      </div>
+    </div>
+
     <div class="site-shell">
       <header class="site-header">
         <div class="container navbar">
@@ -52,7 +60,7 @@
       </header>
 
       <main>
-        <section class="hero">
+        <section class="hero" id="hero">
           <div class="container hero-inner">
             <div class="hero-copy">
               <span class="eyebrow">Global AI-native music platform</span>
@@ -83,9 +91,7 @@
             </div>
 
             <div class="hero-visual" aria-label="Abstract immersive music artwork">
-              <div class="visual-card">
-                <div id="three-root" class="three-root" aria-hidden="true"></div>
-              </div>
+              <div class="visual-card"></div>
               <div class="float-badge">Live • 12k listening</div>
             </div>
           </div>
@@ -93,12 +99,12 @@
 
         <section class="philosophy section-spaced" id="about">
           <div class="container philosophy-inner">
-            <div class="philosophy-copy" id="discover">
+            <div class="philosophy-copy reveal-left reveal" id="discover">
               <span class="eyebrow eyebrow-muted">The idea</span>
               <h2>Listening is the signal.</h2>
             </div>
 
-            <div class="philosophy-support">
+            <div class="philosophy-support reveal reveal-left" data-reveal-delay="150">
               <p class="lead">
                 AI is changing how music is created. LYVER is built around what happens next — how that music is discovered,
                 heard, understood and valued.
@@ -109,25 +115,25 @@
 
         <section class="section-spaced ecosystem" id="ai" aria-labelledby="creation-models-title">
           <div class="container">
-            <div class="section-head ecosystem-head">
+            <div class="section-head ecosystem-head reveal">
               <span class="eyebrow">Creation ecosystem</span>
               <h2 id="creation-models-title">THE NEW MUSIC ECOSYSTEM</h2>
             </div>
 
             <div class="model-grid">
-              <article class="info-card info-card-ai">
+              <article class="info-card info-card-ai reveal reveal-scale">
                 <div class="card-visual" aria-hidden="true">
                   <img src="./images/ai-ecosystem.png" alt="AI music ecosystem visual" />
                 </div>
               </article>
 
-              <article class="info-card info-card-hybrid">
+              <article class="info-card info-card-hybrid reveal reveal-scale" data-reveal-delay="120">
                 <div class="card-visual" aria-hidden="true">
                   <img src="./images/hybrid-ecosystem.png" alt="Hybrid music ecosystem visual" />
                 </div>
               </article>
 
-              <article class="info-card info-card-system">
+              <article class="info-card info-card-system reveal reveal-scale" data-reveal-delay="240">
                 <div class="card-visual" aria-hidden="true">
                   <img src="./images/system-ecosystem.png" alt="System music ecosystem visual" />
                 </div>
@@ -138,13 +144,13 @@
 
         <section class="discovery section-spaced" id="discover-surface" aria-labelledby="discovery-title">
           <div class="container">
-            <div class="discovery-header">
+            <div class="discovery-header reveal">
               <span class="eyebrow">Discovery</span>
               <h2 id="discovery-title">Discover what comes next.</h2>
             </div>
 
             <div class="discovery-stage">
-              <div class="feature-rail feature-rail-left">
+              <div class="feature-rail feature-rail-left reveal reveal-left" data-reveal-delay="100">
                 <article class="mini-panel active">
                   <div class="mini-art art-one"></div>
                   <div class="mini-copy">
@@ -164,7 +170,7 @@
                 </article>
               </div>
 
-              <article class="feature-cover" aria-label="Featured discovery item">
+              <article class="feature-cover reveal reveal-scale" aria-label="Featured discovery item" data-reveal-delay="150">
                 <div class="cover-art">
                   <span class="orb orb-one"></span>
                   <span class="orb orb-two"></span>
@@ -186,7 +192,7 @@
                 </div>
               </article>
 
-              <div class="feature-rail feature-rail-right">
+              <div class="feature-rail feature-rail-right reveal reveal-right" data-reveal-delay="200">
                 <article class="mini-panel">
                   <div class="mini-art art-three"></div>
                   <div class="mini-copy">
@@ -211,7 +217,7 @@
 
         <section class="transparency section-spaced" id="transparency" aria-labelledby="transparency-title">
           <div class="container transparency-inner">
-            <div class="transparency-copy">
+            <div class="transparency-copy reveal reveal-left">
               <span class="eyebrow">Music intelligence</span>
               <h2 id="transparency-title">Know what you're listening to.</h2>
               <p>
@@ -220,7 +226,7 @@
               </p>
             </div>
 
-            <div class="transparency-visual" aria-label="Music intelligence analysis visualization">
+            <div class="transparency-visual reveal reveal-right" aria-label="Music intelligence analysis visualization" data-reveal-delay="150">
               <div class="analysis-panel">
                 <div class="analysis-topline">
                   <span class="signal-tag">Music intelligence</span>
@@ -244,7 +250,7 @@
         <section class="creator-wrap section-spaced" id="creators">
           <div class="container">
             <div class="creator-panel">
-              <div class="creator-copy">
+              <div class="creator-copy reveal reveal-left">
                 <span class="eyebrow">Creator studio</span>
                 <h2>Built for the people behind the music.</h2>
                 <p>
@@ -257,7 +263,7 @@
                 </div>
               </div>
 
-              <div class="creator-visual" aria-label="Creator Studio overview">
+              <div class="creator-visual reveal reveal-right" aria-label="Creator Studio overview" data-reveal-delay="150">
                 <div class="studio-shell">
                   <div class="studio-header">
                     <div>
@@ -304,7 +310,7 @@
           </div>
         </section>
 
-        <section class="final-cta section-spaced" aria-labelledby="final-cta-title">
+        <section class="final-cta section-spaced" id="final-cta" aria-labelledby="final-cta-title">
           <div class="container final-cta-inner">
             <div class="final-cta-visual" aria-hidden="true">
               <span class="cta-orb orb-one"></span>
@@ -312,7 +318,7 @@
               <span class="cta-ring"></span>
             </div>
 
-            <div class="final-cta-copy">
+            <div class="final-cta-copy reveal reveal-scale">
               <h2 id="final-cta-title">Music is evolving.</h2>
               <p>Be part of what comes next.</p>
 
@@ -325,7 +331,7 @@
         </section>
       </main>
 
-      <footer class="site-footer">
+      <footer class="site-footer" id="site-footer">
         <div class="container footer-grid">
           <div class="footer-brand">
             <a href="#" class="logo footer-logo" aria-label="LYVER home">
@@ -383,5 +389,7 @@
     <script src="/js/three.umd.js"></script>
     <script src="./brand.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/reveal.js"></script>
+    <script src="./js/sphere-scroll.js"></script>
   </body>
 </html>

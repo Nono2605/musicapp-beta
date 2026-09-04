@@ -17,6 +17,13 @@ body.nav-open {
   overflow: hidden;
 }
 
+/* Content always renders above the fixed .sphere-stage companion (z-index: 4)
+   so the roaming sphere can never obscure text or interactive elements. */
+main {
+  position: relative;
+  z-index: 5;
+}
+
 .container {
   width: var(--container-width);
   margin: 0 auto;

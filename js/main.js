@@ -328,7 +328,7 @@ function initThreeParticles() {
 // Boot: try local three, then CDN, else fallback to Canvas2D particle sphere
 function initGraphics() {
   // add a small debug overlay to show status directly on the page
-  const visualCard = document.querySelector('.visual-card') || document.body;
+  const visualCard = document.getElementById('sphere-visual') || document.body;
   let debugOverlay = document.getElementById('visual-debug');
   if (!debugOverlay) {
     debugOverlay = document.createElement('div');

@@ -1,0 +1,53 @@
+/* Global scroll-following sphere.
+   #sphere-stage is a fixed, full-viewport, pointer-events-none layer that
+   always sits BEHIND page content (see `main`/`.site-footer` z-index in
+   global.css / footer.css). js/sphere-scroll.js moves `.sphere-visual`
+   inside it by writing translate3d()/scale()/opacity to CSS variables, so
+   the sphere can glide from section to section without ever needing to be
+   re-parented or resized by layout. */
+
+.sphere-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sphere-visual {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32rem;
+  height: 28rem;
+  transform: translate3d(var(--sphere-x, 74vw), var(--sphere-y, 46vh), 0)
+    translate(-50%, -50%) scale(var(--sphere-scale, 1));
+  opacity: var(--sphere-opacity, 1);
+  transform-origin: center;
+}
+
+.sphere-visual .three-root {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .sphere-visual {
+    width: 22rem;
+    height: 19rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .sphere-visual {
+    width: 16rem;
+    height: 14rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sphere-visual {
+    transition: opacity 0.4s ease;
+  }
+}
