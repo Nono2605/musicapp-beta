@@ -11,9 +11,9 @@
 
   const WAYPOINTS = [
     { id: 'hero', x: 74, y: 46, scale: 1.05, opacity: 1 },
-    { id: 'about', x: 88, y: 26, scale: 0.5, opacity: 0.55 },
-    { id: 'ai', x: 91, y: 16, scale: 0.32, opacity: 0.28 },
-    { id: 'discover-surface', x: 50, y: 50, scale: 0.001, opacity: 0 },
+    { id: 'about', x: 26, y: 62, scale: 0.32, opacity: 0.5 },
+    { id: 'ai', x: 39, y: 29, scale: 0.28, opacity: 0.3 },
+    { id: 'discover-surface', x: 78, y: 24, scale: 0.2, opacity: 0.4 },
     { id: 'transparency', x: 80, y: 52, scale: 0.65, opacity: 0.4 },
     { id: 'creators', x: 82, y: 42, scale: 0.6, opacity: 0.38 },
     { id: 'final-cta', x: 50, y: 16, scale: 0.55, opacity: 0.5 },
