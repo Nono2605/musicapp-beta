@@ -9,10 +9,6 @@
     grid-template-columns: 1fr;
   }
 
-  .transparency-inner {
-    grid-template-columns: 0.9fr 1.1fr;
-  }
-
   .hero-inner {
     grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.85fr);
     min-height: auto;
@@ -164,6 +160,7 @@
 @media (max-width: 720px) {
   .transparency-inner {
     grid-template-columns: 1fr;
+    row-gap: 1.5rem;
   }
 
   .transparency-copy,
@@ -177,6 +174,14 @@
 
   .transparency-copy p {
     max-width: 100%;
+  }
+
+  .analysis-panel {
+    width: min(100%, 33rem);
+  }
+
+  .analysis-viewport {
+    height: 15rem;
   }
 
   .section-spaced {
