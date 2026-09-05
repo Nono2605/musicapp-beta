@@ -16,8 +16,8 @@
     { id: 'discover-surface', x: 78, y: 24, scale: 0.9, opacity: 0.4 },
     { id: 'transparency', x: 80, y: 52, scale: 1.15, opacity: 0.4 },
     { id: 'creators', x: 82, y: 42, scale: 1.0, opacity: 0.38 },
-    { id: 'final-cta', x: 50, y: 38, scale: 1.05, opacity: 0.5 },
-    { id: 'site-footer', x: 50, y: 38, scale: 1.05, opacity: 0.15 },
+    { id: 'final-cta', x: 50, y: 42, scale: 1.3, opacity: 0.55 },
+    { id: 'site-footer', x: 50, y: 42, scale: 1.3, opacity: 0.55 },
   ];
 
   // On narrow viewports every section collapses to a single stacked column,
@@ -31,8 +31,8 @@
     { id: 'discover-surface', x: 50, y: 50, scale: 0.75, opacity: 0 },
     { id: 'transparency', x: 90, y: 8, scale: 0.95, opacity: 0.22 },
     { id: 'creators', x: 90, y: 8, scale: 0.85, opacity: 0.2 },
-    { id: 'final-cta', x: 50, y: 30, scale: 0.9, opacity: 0.3 },
-    { id: 'site-footer', x: 50, y: 30, scale: 0.9, opacity: 0.1 },
+    { id: 'final-cta', x: 50, y: 26, scale: 1.1, opacity: 0.45 },
+    { id: 'site-footer', x: 50, y: 26, scale: 1.1, opacity: 0.45 },
   ];
 
   const compactQuery = window.matchMedia('(max-width: 720px)');
