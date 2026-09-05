@@ -17,7 +17,7 @@
     { id: 'transparency', x: 80, y: 52, scale: 1.15, opacity: 0.4 },
     { id: 'creators', x: 82, y: 42, scale: 1.0, opacity: 0.38 },
     { id: 'final-cta', x: 50, y: 42, scale: 1.3, opacity: 0.55 },
-    { id: 'site-footer', x: 50, y: 42, scale: 1.3, opacity: 0.55 },
+    { id: 'site-footer', x: 50, y: 42, scale: 1.3, opacity: 0, edge: 'top' },
   ];
 
   // On narrow viewports every section collapses to a single stacked column,
@@ -32,7 +32,7 @@
     { id: 'transparency', x: 90, y: 8, scale: 0.95, opacity: 0.22 },
     { id: 'creators', x: 90, y: 8, scale: 0.85, opacity: 0.2 },
     { id: 'final-cta', x: 50, y: 26, scale: 1.1, opacity: 0.45 },
-    { id: 'site-footer', x: 50, y: 26, scale: 1.1, opacity: 0.45 },
+    { id: 'site-footer', x: 50, y: 26, scale: 1.1, opacity: 0, edge: 'top' },
   ];
 
   const compactQuery = window.matchMedia('(max-width: 720px)');
@@ -59,9 +59,11 @@
 
     anchors.forEach((wp) => {
       const rect = wp.el.getBoundingClientRect();
-      const centerDocY = rect.top + window.scrollY + rect.height / 2;
+      const offset = wp.edge === 'top' ? 0 : rect.height / 2;
+      const centerDocY = rect.top + window.scrollY + offset;
       // Fraction of the whole scrollable range at which this section's
-      // vertical center crosses the viewport's vertical center.
+      // vertical center (or top edge, for waypoints marked edge: 'top')
+      // crosses the viewport's vertical center.
       const t = (centerDocY - viewportHeight / 2) / maxScroll;
       wp.t = Math.min(1, Math.max(0, t));
     });
