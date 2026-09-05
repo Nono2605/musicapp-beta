@@ -11,13 +11,13 @@
 
   const WAYPOINTS = [
     { id: 'hero', x: 74, y: 46, scale: 1.05, opacity: 1 },
-    { id: 'about', x: 26, y: 62, scale: 0.32, opacity: 0.5 },
-    { id: 'ai', x: 39, y: 29, scale: 0.28, opacity: 0.3 },
-    { id: 'discover-surface', x: 78, y: 24, scale: 0.2, opacity: 0.4 },
-    { id: 'transparency', x: 80, y: 52, scale: 0.65, opacity: 0.4 },
-    { id: 'creators', x: 82, y: 42, scale: 0.6, opacity: 0.38 },
-    { id: 'final-cta', x: 50, y: 47, scale: 0.8, opacity: 0.5 },
-    { id: 'site-footer', x: 50, y: 47, scale: 0.8, opacity: 0 },
+    { id: 'about', x: 26, y: 62, scale: 0.7, opacity: 0.5 },
+    { id: 'ai', x: 39, y: 29, scale: 1.1, opacity: 0.3 },
+    { id: 'discover-surface', x: 78, y: 24, scale: 0.9, opacity: 0.4 },
+    { id: 'transparency', x: 80, y: 52, scale: 1.15, opacity: 0.4 },
+    { id: 'creators', x: 82, y: 42, scale: 1.0, opacity: 0.38 },
+    { id: 'final-cta', x: 50, y: 38, scale: 1.05, opacity: 0.5 },
+    { id: 'site-footer', x: 50, y: 38, scale: 1.05, opacity: 0.15 },
   ];
 
   // On narrow viewports every section collapses to a single stacked column,
@@ -25,14 +25,14 @@
   // the sphere confined to the top-right corner instead — only its
   // scale/opacity still tell the per-section story.
   const WAYPOINTS_COMPACT = [
-    { id: 'hero', x: 88, y: 15, scale: 0.5, opacity: 0.92 },
-    { id: 'about', x: 90, y: 8, scale: 0.3, opacity: 0.32 },
-    { id: 'ai', x: 90, y: 8, scale: 0.24, opacity: 0.2 },
-    { id: 'discover-surface', x: 50, y: 50, scale: 0.001, opacity: 0 },
-    { id: 'transparency', x: 90, y: 8, scale: 0.3, opacity: 0.22 },
-    { id: 'creators', x: 90, y: 8, scale: 0.28, opacity: 0.2 },
-    { id: 'final-cta', x: 50, y: 8, scale: 0.32, opacity: 0.3 },
-    { id: 'site-footer', x: 50, y: 8, scale: 0.32, opacity: 0 },
+    { id: 'hero', x: 88, y: 15, scale: 0.9, opacity: 0.92 },
+    { id: 'about', x: 90, y: 8, scale: 0.6, opacity: 0.32 },
+    { id: 'ai', x: 90, y: 8, scale: 0.95, opacity: 0.2 },
+    { id: 'discover-surface', x: 50, y: 50, scale: 0.75, opacity: 0 },
+    { id: 'transparency', x: 90, y: 8, scale: 0.95, opacity: 0.22 },
+    { id: 'creators', x: 90, y: 8, scale: 0.85, opacity: 0.2 },
+    { id: 'final-cta', x: 50, y: 30, scale: 0.9, opacity: 0.3 },
+    { id: 'site-footer', x: 50, y: 30, scale: 0.9, opacity: 0.1 },
   ];
 
   const compactQuery = window.matchMedia('(max-width: 720px)');
