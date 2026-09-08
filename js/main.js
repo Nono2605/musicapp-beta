@@ -39,6 +39,37 @@
         if (metaDescription) {
             metaDescription.setAttribute("content", BRAND.description);
         }
+
+        // Keep Open Graph / Twitter card copy and the JSON-LD block in
+        // sync with the brand config, the same way <title> is updated.
+        [
+            'meta[property="og:site_name"]',
+            'meta[property="og:title"]',
+            'meta[name="twitter:title"]'
+        ].forEach(function (selector) {
+            var el = document.querySelector(selector);
+            if (el) el.setAttribute("content", el.getAttribute("content").replace(/BRAND/g, BRAND.name));
+        });
+
+        [
+            'meta[property="og:description"]',
+            'meta[name="twitter:description"]'
+        ].forEach(function (selector) {
+            var el = document.querySelector(selector);
+            if (el) el.setAttribute("content", BRAND.description);
+        });
+
+        var structuredData = document.querySelector('script[type="application/ld+json"]');
+        if (structuredData) {
+            try {
+                var data = JSON.parse(structuredData.textContent);
+                data.name = BRAND.name;
+                data.description = BRAND.description;
+                structuredData.textContent = JSON.stringify(data);
+            } catch (e) {
+                /* malformed JSON-LD is a build-time bug, not a runtime concern */
+            }
+        }
     }
 
     /**
@@ -207,20 +238,62 @@
         ]
     };
 
+    var SVG_NS = "http://www.w3.org/2000/svg";
+    var PLAY_ICON_PATH = "M8 5v14l11-7z";
+
+    function createPlayIcon() {
+        var svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("viewBox", "0 0 24 24");
+        svg.setAttribute("fill", "currentColor");
+        svg.setAttribute("aria-hidden", "true");
+
+        var path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute("d", PLAY_ICON_PATH);
+        svg.appendChild(path);
+
+        return svg;
+    }
+
+    /**
+     * Builds one album card as real DOM nodes (no innerHTML) so track
+     * and artist names are always inserted as text, never parsed as
+     * markup — safe even if a name ever contains "&", "<" or '"'.
+     */
     function renderAlbumCard(item, index) {
         var variant = (index % 6) + 1;
-        return (
-            '<article class="album-card">' +
-                '<div class="album-card__art album-card__art--' + variant + '">' +
-                    '<button type="button" class="album-card__play" aria-label="Play ' + item.track + ' by ' + item.artist + '">' +
-                        '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
-                    '</button>' +
-                    '<span class="album-card__badge">' + item.tag + '</span>' +
-                '</div>' +
-                '<p class="album-card__track">' + item.track + '</p>' +
-                '<p class="album-card__artist">' + item.artist + '</p>' +
-            '</article>'
-        );
+
+        var article = document.createElement("article");
+        article.className = "album-card";
+
+        var art = document.createElement("div");
+        art.className = "album-card__art album-card__art--" + variant;
+
+        var playButton = document.createElement("button");
+        playButton.type = "button";
+        playButton.className = "album-card__play";
+        playButton.setAttribute("aria-label", "Play " + item.track + " by " + item.artist);
+        playButton.appendChild(createPlayIcon());
+
+        var badge = document.createElement("span");
+        badge.className = "album-card__badge";
+        badge.textContent = item.tag;
+
+        art.appendChild(playButton);
+        art.appendChild(badge);
+
+        var track = document.createElement("p");
+        track.className = "album-card__track";
+        track.textContent = item.track;
+
+        var artist = document.createElement("p");
+        artist.className = "album-card__artist";
+        artist.textContent = item.artist;
+
+        article.appendChild(art);
+        article.appendChild(track);
+        article.appendChild(artist);
+
+        return article;
     }
 
     /**
@@ -244,7 +317,10 @@
 
             var items = DISCOVER_DATA[tab.getAttribute("data-category")];
             if (items) {
-                row.innerHTML = items.map(renderAlbumCard).join("");
+                row.textContent = "";
+                items.forEach(function (item, index) {
+                    row.appendChild(renderAlbumCard(item, index));
+                });
             }
 
             row.scrollTo({ left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
@@ -281,9 +357,10 @@
 
         var prefix = el.getAttribute("data-count-prefix") || "";
         var suffix = el.getAttribute("data-count-suffix") || "";
+        var decimals = parseInt(el.getAttribute("data-count-decimals"), 10) || 0;
 
         if (prefersReducedMotion) {
-            el.textContent = prefix + target + suffix;
+            el.textContent = prefix + target.toFixed(decimals) + suffix;
             return;
         }
 
@@ -297,8 +374,8 @@
         function step(timestamp) {
             if (start === null) start = timestamp;
             var progress = Math.min((timestamp - start) / duration, 1);
-            var value = Math.round(target * easeOutCubic(progress));
-            el.textContent = prefix + value + suffix;
+            var value = target * easeOutCubic(progress);
+            el.textContent = prefix + value.toFixed(decimals) + suffix;
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             }

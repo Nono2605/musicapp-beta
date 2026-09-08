@@ -9,7 +9,7 @@ const BRAND = {
     name: "BRAND",
     shortName: "BRAND",
     tagline: "Your music. Your artists. Your impact.",
-    description: "A music platform connecting listeners and creators through transparent, user-centric royalties.",
+    description: "Discover music while supporting the artists you actually listen to through transparent, creator-first royalties.",
     appUrl: "https://app.BRAND.com",
     loginUrl: "https://app.BRAND.com/login",
     signupUrl: "https://app.BRAND.com/signup",
