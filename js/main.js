@@ -184,59 +184,12 @@
     var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     /**
-     * Fictional catalog for the Discover section. Every artist, track
-     * and artwork gradient here is an illustrative placeholder.
+     * Discover section data, fetched once from the real API (GET /tracks).
+     * The API has no per-category filtering yet (for-you/trending/ai-music/...),
+     * so every tab currently renders the same live catalog — the tabs stay
+     * wired for when the API grows real per-category endpoints.
      */
-    var DISCOVER_DATA = {
-        "for-you": [
-            { track: "Undertow", artist: "Nova Ridge", tag: "For You" },
-            { track: "Paper Moons", artist: "Isla Marsh", tag: "For You" },
-            { track: "Low Static", artist: "Kite & Wire", tag: "For You" },
-            { track: "Amber Line", artist: "Petra Voss", tag: "For You" },
-            { track: "Slow Bloom", artist: "Wren Calder", tag: "For You" },
-            { track: "Night Currents", artist: "The Low Hum", tag: "For You" }
-        ],
-        "new-releases": [
-            { track: "Halcyon Drift", artist: "Mira Solene", tag: "New" },
-            { track: "Glass Atlas", artist: "Signal Fields", tag: "New" },
-            { track: "Bone Orchard", artist: "Rue Halden", tag: "New" },
-            { track: "Tidewatch", artist: "August Vale", tag: "New" },
-            { track: "Paper Skies", artist: "Nia Coast", tag: "New" },
-            { track: "Faultlines", artist: "Odder Grove", tag: "New" }
-        ],
-        "emerging-artists": [
-            { track: "Salt & Echo", artist: "Juno Kade", tag: "Emerging" },
-            { track: "Corvid Lane", artist: "Ivy Thorne", tag: "Emerging" },
-            { track: "Between Stations", artist: "Otto Reyes", tag: "Emerging" },
-            { track: "Wildgrass", artist: "Sable Finch", tag: "Emerging" },
-            { track: "Neon Orchard", artist: "Lior Bracken", tag: "Emerging" },
-            { track: "Quiet Static", artist: "Marlowe Sun", tag: "Emerging" }
-        ],
-        "trending": [
-            { track: "Midnight Freight", artist: "The Low Hum", tag: "Trending" },
-            { track: "Afterglow", artist: "Nova Ridge", tag: "Trending" },
-            { track: "Electric Hush", artist: "Kite & Wire", tag: "Trending" },
-            { track: "Velvet Static", artist: "Petra Voss", tag: "Trending" },
-            { track: "Coastline", artist: "Isla Marsh", tag: "Trending" },
-            { track: "Fever Dream", artist: "Wren Calder", tag: "Trending" }
-        ],
-        "ai-music": [
-            { track: "Synthetic Bloom", artist: "Aria Engine", tag: "AI" },
-            { track: "Neural Tide", artist: "Modelwave", tag: "AI" },
-            { track: "Latent Horizon", artist: "Deep Chorus", tag: "AI" },
-            { track: "Generated Dusk", artist: "Echo Index", tag: "AI" },
-            { track: "Pattern Recognition", artist: "Aria Engine", tag: "AI" },
-            { track: "Emergent Field", artist: "Modelwave", tag: "AI" }
-        ],
-        "human-ai": [
-            { track: "Dawn Circuit", artist: "Nova Ridge × Aria Engine", tag: "Human + AI" },
-            { track: "Shared Frequency", artist: "Isla Marsh × Modelwave", tag: "Human + AI" },
-            { track: "Mirror Take", artist: "Wren Calder × Deep Chorus", tag: "Human + AI" },
-            { track: "Cross Signal", artist: "Kite & Wire × Echo Index", tag: "Human + AI" },
-            { track: "Human Loop", artist: "Petra Voss × Aria Engine", tag: "Human + AI" },
-            { track: "Duet Protocol", artist: "The Low Hum × Modelwave", tag: "Human + AI" }
-        ]
-    };
+    var liveTracks = null;
 
     var SVG_NS = "http://www.w3.org/2000/svg";
     var PLAY_ICON_PATH = "M8 5v14l11-7z";
@@ -258,36 +211,42 @@
      * Builds one album card as real DOM nodes (no innerHTML) so track
      * and artist names are always inserted as text, never parsed as
      * markup — safe even if a name ever contains "&", "<" or '"'.
+     *
+     * `item` is a row from GET /tracks: { title, artists: {name}, albums: {cover_url} }.
+     * No badge is rendered — the API doesn't classify tracks into
+     * for-you/trending/etc. yet, so a per-card label would be fabricated.
      */
     function renderAlbumCard(item, index) {
         var variant = (index % 6) + 1;
+        var artistName = (item.artists && item.artists.name) || "Unknown artist";
+        var coverUrl = item.albums && item.albums.cover_url;
 
         var article = document.createElement("article");
         article.className = "album-card";
 
         var art = document.createElement("div");
         art.className = "album-card__art album-card__art--" + variant;
+        if (coverUrl) {
+            art.style.backgroundImage = "url(" + coverUrl + ")";
+            art.style.backgroundSize = "cover";
+            art.style.backgroundPosition = "center";
+        }
 
         var playButton = document.createElement("button");
         playButton.type = "button";
         playButton.className = "album-card__play";
-        playButton.setAttribute("aria-label", "Play " + item.track + " by " + item.artist);
+        playButton.setAttribute("aria-label", "Play " + item.title + " by " + artistName);
         playButton.appendChild(createPlayIcon());
 
-        var badge = document.createElement("span");
-        badge.className = "album-card__badge";
-        badge.textContent = item.tag;
-
         art.appendChild(playButton);
-        art.appendChild(badge);
 
         var track = document.createElement("p");
         track.className = "album-card__track";
-        track.textContent = item.track;
+        track.textContent = item.title;
 
         var artist = document.createElement("p");
         artist.className = "album-card__artist";
-        artist.textContent = item.artist;
+        artist.textContent = artistName;
 
         article.appendChild(art);
         article.appendChild(track);
@@ -298,13 +257,33 @@
 
     /**
      * Wires the Discover section's category pills to an ARIA tabs
-     * pattern (arrow-key navigation) that swaps the fictional album
-     * row below.
+     * pattern (arrow-key navigation). Every tab renders the same live
+     * catalog fetched once from the API (see `liveTracks` above).
      */
     function initDiscover() {
         var tabs = document.querySelectorAll(".discover__tab");
         var row = document.getElementById("discover-panel");
+        var disclaimer = document.getElementById("discover-disclaimer");
         if (!tabs.length || !row) return;
+
+        function renderRow() {
+            row.textContent = "";
+
+            if (liveTracks === null) {
+                if (disclaimer) disclaimer.textContent = "Loading catalog…";
+                return;
+            }
+
+            if (liveTracks.length === 0) {
+                if (disclaimer) disclaimer.textContent = "No tracks published yet — check back soon.";
+                return;
+            }
+
+            if (disclaimer) disclaimer.textContent = "";
+            liveTracks.forEach(function (item, index) {
+                row.appendChild(renderAlbumCard(item, index));
+            });
+        }
 
         function selectTab(tab) {
             tabs.forEach(function (t) {
@@ -314,15 +293,7 @@
             });
 
             row.setAttribute("aria-labelledby", tab.id);
-
-            var items = DISCOVER_DATA[tab.getAttribute("data-category")];
-            if (items) {
-                row.textContent = "";
-                items.forEach(function (item, index) {
-                    row.appendChild(renderAlbumCard(item, index));
-                });
-            }
-
+            renderRow();
             row.scrollTo({ left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
         }
 
@@ -344,6 +315,17 @@
                 selectTab(tabs[newIndex]);
             });
         });
+
+        renderRow();
+        if (typeof API !== "undefined") {
+            API.get("/tracks?limit=24").then(function (json) {
+                liveTracks = (json && json.data) || [];
+                renderRow();
+            });
+        } else {
+            liveTracks = [];
+            renderRow();
+        }
     }
 
     /**
