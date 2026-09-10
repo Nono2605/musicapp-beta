@@ -7,9 +7,10 @@
 
     /**
      * Inject brand text/links into the DOM.
-     * Elements use `data-brand="<key>"` for text content
-     * and `data-brand-href="<key>"` for the href attribute,
-     * where <key> matches a property on the global BRAND object.
+     * Elements use `data-brand="<key>"` for text content, matching a
+     * property on the global BRAND object, and `data-brand-href="<key>"`
+     * for the href attribute, matching a property on the global LINKS
+     * object (js/links.js) — the redirect URLs to the other apps.
      */
     function applyBrand() {
         if (typeof BRAND === "undefined") return;
@@ -30,8 +31,8 @@
 
         document.querySelectorAll("[data-brand-href]").forEach(function (el) {
             var key = el.getAttribute("data-brand-href");
-            if (BRAND[key] !== undefined) {
-                el.setAttribute("href", BRAND[key]);
+            if (typeof LINKS !== "undefined" && LINKS[key] !== undefined) {
+                el.setAttribute("href", LINKS[key]);
             }
         });
 
