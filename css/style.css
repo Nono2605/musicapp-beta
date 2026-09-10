@@ -2400,6 +2400,69 @@ main [id] {
 }
 
 /* ==========================================================================
+   Standalone sub-pages — intro header & closing CTA
+   (royalties.html, about.html, creators.html)
+   ========================================================================== */
+.page-hero {
+    position: relative;
+    padding-block: var(--space-2xl) var(--space-xl);
+    text-align: center;
+    overflow: hidden;
+}
+
+.page-hero::before {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    width: 70rem;
+    height: 40rem;
+    transform: translateX(-50%);
+    background: radial-gradient(36rem 24rem at 50% 20%, rgba(112, 71, 255, 0.14), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.page-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.page-hero__title {
+    max-width: 32ch;
+    margin-inline: auto;
+}
+
+.page-hero__subtext {
+    max-width: 40rem;
+    margin-inline: auto;
+    font-size: 1.0625rem;
+}
+
+.page-cta {
+    text-align: center;
+}
+
+.page-cta__title {
+    margin-bottom: var(--space-md);
+}
+
+.page-cta__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.creator-teaser__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+/* ==========================================================================
    Responsive — hero, money, why, steps
    ========================================================================== */
 @media (max-width: 960px) {

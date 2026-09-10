@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How royalties work — BRAND</title>
+    <meta name="description" content="A full breakdown of where your BRAND subscription goes, how fraud is kept out, and why loyalty doesn't mean winner-takes-all.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://musicapp-beta-ten.vercel.app/royalties.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BRAND">
+    <meta property="og:title" content="How royalties work — BRAND">
+    <meta property="og:description" content="A full breakdown of where your BRAND subscription goes, how fraud is kept out, and why loyalty doesn't mean winner-takes-all.">
+    <meta property="og:url" content="https://musicapp-beta-ten.vercel.app/royalties.html">
+    <meta property="og:image" content="https://musicapp-beta-ten.vercel.app/assets/images/og-cover.png">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How royalties work — BRAND">
+    <meta name="twitter:description" content="A full breakdown of where your BRAND subscription goes, how fraud is kept out, and why loyalty doesn't mean winner-takes-all.">
+    <meta name="twitter:image" content="https://musicapp-beta-ten.vercel.app/assets/images/og-cover.png">
+
+    <!-- Favicon placeholders -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ==========================================================
+         Navigation — section links point back to index.html since
+         Music/Discover/Artists/How it works only exist there.
+         ========================================================== -->
+    <header class="nav" id="site-header">
+        <div class="container nav__inner">
+            <a href="index.html" class="nav__brand" data-brand-name aria-label="Back to home">BRAND</a>
+
+            <button type="button" class="nav__toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+                <span class="nav__toggle-bar" aria-hidden="true"></span>
+                <span class="nav__toggle-bar" aria-hidden="true"></span>
+                <span class="nav__toggle-bar" aria-hidden="true"></span>
+            </button>
+
+            <nav class="nav__menu" id="primary-navigation" aria-label="Primary">
+                <ul class="nav__links">
+                    <li><a href="index.html#music">Music</a></li>
+                    <li><a href="index.html#discover">Discover</a></li>
+                    <li><a href="index.html#artists">Artists</a></li>
+                    <li><a href="index.html#how-it-works">How it works</a></li>
+                    <li><a href="creators.html">For Creators</a></li>
+                </ul>
+                <div class="nav__actions">
+                    <a class="btn btn--ghost" data-brand-href="loginUrl" href="https://music-app-1-0-0.vercel.app/login">Log in</a>
+                    <a class="btn btn--primary" data-brand-href="appUrl" href="https://music-app-1-0-0.vercel.app">Start listening</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <!-- ======================================================
+             Page intro
+             ====================================================== -->
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow">Royalties</span>
+                <h1 class="page-hero__title">How the money really works.</h1>
+                <p class="page-hero__subtext">Where your subscription goes, how genuine listening is told apart from artificial activity, and why rewarding loyalty shouldn't create a winner-takes-all system.</p>
+            </div>
+        </section>
+
+        <!-- ======================================================
+             Where your money goes
+             ====================================================== -->
+        <section class="section money" id="money" aria-labelledby="money-title">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <span class="eyebrow">Transparency</span>
+                    <h2 id="money-title">Where your money goes.</h2>
+                    <p class="section-subtitle">Your subscription follows your listening.</p>
+                </div>
+
+                <div class="money-flow reveal-group">
+                    <div class="money-step reveal">
+                        <span class="money-step__index">01</span>
+                        <span class="money-step__label">Your subscription</span>
+                        <span class="money-step__value" data-count-to="10" data-count-prefix="€">€0</span>
+                        <span class="money-step__caption">Illustrative example</span>
+                    </div>
+
+                    <div class="money-flow__connector" aria-hidden="true"><span></span></div>
+
+                    <div class="money-step reveal">
+                        <span class="money-step__index">02</span>
+                        <span class="money-step__label">Platform costs</span>
+                        <span class="money-step__value" data-count-to="10" data-count-suffix="%">0%</span>
+                        <span class="money-step__caption">Running the platform</span>
+                    </div>
+
+                    <div class="money-flow__connector" aria-hidden="true"><span></span></div>
+
+                    <div class="money-step reveal">
+                        <span class="money-step__index">03</span>
+                        <span class="money-step__label">Creator pool</span>
+                        <span class="money-step__value" data-count-to="90" data-count-suffix="%">0%</span>
+                        <span class="money-step__caption">Goes to artists</span>
+                    </div>
+
+                    <div class="money-flow__connector" aria-hidden="true"><span></span></div>
+
+                    <div class="money-step money-step--result reveal">
+                        <span class="money-step__index">04</span>
+                        <span class="money-step__label">Artists you listened to</span>
+                        <div class="money-distribution">
+                            <div class="artist-row">
+                                <span class="artist-row__name">Artist A</span>
+                                <div class="artist-row__track"><span class="artist-row__bar" data-bar-to="30"></span></div>
+                                <span class="artist-row__pct" data-count-to="30" data-count-suffix="%">0%</span>
+                            </div>
+                            <div class="artist-row">
+                                <span class="artist-row__name">Artist B</span>
+                                <div class="artist-row__track"><span class="artist-row__bar" data-bar-to="20"></span></div>
+                                <span class="artist-row__pct" data-count-to="20" data-count-suffix="%">0%</span>
+                            </div>
+                            <div class="artist-row">
+                                <span class="artist-row__name">Artist C</span>
+                                <div class="artist-row__track"><span class="artist-row__bar" data-bar-to="50"></span></div>
+                                <span class="artist-row__pct" data-count-to="50" data-count-suffix="%">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="money-disclaimer reveal">€10 subscription, 10% platform share, 90% creator pool — an illustrative example only, not final commercial or legal terms.</p>
+            </div>
+        </section>
+
+        <!-- ======================================================
+             No black box — transparency deep dive
+             ====================================================== -->
+        <section class="section transparency" id="transparency" aria-labelledby="transparency-title">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <span class="eyebrow">Radical transparency</span>
+                    <h2 id="transparency-title">No black box.</h2>
+                    <p class="section-subtitle">Your listening should not disappear into a formula you cannot understand.</p>
+                </div>
+
+                <div class="tflow reveal">
+                    <div class="tflow__step">
+                        <span class="tflow__label">You listen</span>
+                    </div>
+                    <svg class="tflow__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" stroke="var(--color-blue-bright)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div class="tflow__step">
+                        <span class="tflow__label">We calculate</span>
+                    </div>
+                    <svg class="tflow__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" stroke="var(--color-blue-bright)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div class="tflow__step">
+                        <span class="tflow__label">You see</span>
+                    </div>
+                    <svg class="tflow__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" stroke="var(--color-violet-soft)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div class="tflow__step tflow__step--final">
+                        <span class="tflow__label">Artists get paid</span>
+                    </div>
+                </div>
+
+                <div class="tdash reveal">
+                    <div class="tdash__chrome">
+                        <span class="studio__dot"></span>
+                        <span class="studio__dot"></span>
+                        <span class="studio__dot"></span>
+                        <span class="tdash__chrome-label">Transparency panel</span>
+                    </div>
+
+                    <div class="tdash__body">
+                        <div class="tdash__overview">
+                            <div class="tdash__figure">
+                                <span class="tdash__figure-label">Your subscription</span>
+                                <span class="tdash__figure-value" data-count-to="10" data-count-prefix="€">€0</span>
+                            </div>
+                            <span class="tdash__overview-arrow" aria-hidden="true">→</span>
+                            <div class="tdash__figure">
+                                <span class="tdash__figure-label">Creator pool</span>
+                                <span class="tdash__figure-value" data-count-to="9" data-count-prefix="€">€0</span>
+                            </div>
+                        </div>
+
+                        <div class="tdash__panel">
+                            <p class="tdash__panel-title">Your listening</p>
+                            <div class="artist-row">
+                                <span class="artist-row__name">Artist A</span>
+                                <div class="artist-row__track"><span class="artist-row__bar" data-bar-to="30"></span></div>
+                                <span class="artist-row__pct" data-count-to="30" data-count-suffix="%">0%</span>
+                            </div>
+                            <div class="artist-row">
+                                <span class="artist-row__name">Artist B</span>
+                                <div class="artist-row__track"><span class="artist-row__bar" data-bar-to="20"></span></div>
+                                <span class="artist-row__pct" data-count-to="20" data-count-suffix="%">0%</span>
+                            </div>
+                            <div class="artist-row">
+                                <span class="artist-row__name">Artist C</span>
+                                <div class="artist-row__track"><span class="artist-row__bar" data-bar-to="50"></span></div>
+                                <span class="artist-row__pct" data-count-to="50" data-count-suffix="%">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="tdash__panel tdash__panel--impact">
+                            <p class="tdash__panel-title">Your impact</p>
+                            <div class="impact-row">
+                                <span class="impact-row__artist">Artist A</span>
+                                <svg class="impact-row__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <span class="impact-row__value" data-count-to="2.7" data-count-decimals="2" data-count-prefix="€">€0.00</span>
+                            </div>
+                            <div class="impact-row">
+                                <span class="impact-row__artist">Artist B</span>
+                                <svg class="impact-row__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <span class="impact-row__value" data-count-to="1.8" data-count-decimals="2" data-count-prefix="€">€0.00</span>
+                            </div>
+                            <div class="impact-row">
+                                <span class="impact-row__artist">Artist C</span>
+                                <svg class="impact-row__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <span class="impact-row__value" data-count-to="4.5" data-count-decimals="2" data-count-prefix="€">€0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="transparency-note reveal">Illustrative example only. Actual amounts depend on your subscription, applicable fees and the platform's final royalty rules.</p>
+            </div>
+        </section>
+
+        <!-- ======================================================
+             Real listening, real impact — fraud fairness
+             ====================================================== -->
+        <section class="section section--secondary fraud" id="fraud" aria-labelledby="fraud-title">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <span class="eyebrow">Fairness</span>
+                    <h2 id="fraud-title">Real listening. Real impact.</h2>
+                    <p class="section-subtitle">Creators should be rewarded for genuine audience engagement — not artificial activity.</p>
+                </div>
+
+                <div class="fraud-diagram reveal" aria-hidden="true">
+                    <div class="fraud-diagram__node">
+                        <span class="fraud-diagram__icon fraud-diagram__icon--blue">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M4 13a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2.5" y="13" width="4" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="17.5" y="13" width="4" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                        </span>
+                        <span class="fraud-diagram__label">Human listener</span>
+                    </div>
+                    <span class="fraud-diagram__connector"></span>
+                    <div class="fraud-diagram__node">
+                        <span class="fraud-diagram__icon fraud-diagram__icon--blue">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h2l2-6 3 14 3-10 2 6h2l2-4h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="fraud-diagram__label">Listening activity</span>
+                    </div>
+                    <span class="fraud-diagram__connector"></span>
+                    <div class="fraud-diagram__node">
+                        <span class="fraud-diagram__icon fraud-diagram__icon--violet">
+                            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/><path d="M8.5 12.5l2.2 2.2L16 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="fraud-diagram__label">Fraud analysis</span>
+                    </div>
+                    <span class="fraud-diagram__connector"></span>
+                    <div class="fraud-diagram__node fraud-diagram__node--final">
+                        <span class="fraud-diagram__icon fraud-diagram__icon--final">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M4 15.5 9.5 10l3.5 3.5L20 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 6H20v5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="fraud-diagram__label">Royalty calculation</span>
+                    </div>
+                </div>
+
+                <div class="value-cards reveal-group">
+                    <article class="card value-card reveal">
+                        <span class="value-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.3"/><path d="M7 12h2l1.5-3 2 6 1.5-3h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <h3 class="card__title value-card__title">Genuine listening</h3>
+                        <p class="card__text value-card__text">Real people discovering and listening to music.</p>
+                    </article>
+
+                    <article class="card value-card reveal">
+                        <span class="value-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="11" cy="12" r="1.6" fill="currentColor"/><circle cx="17" cy="8" r="1.6" fill="currentColor"/><circle cx="17" cy="8" r="4" stroke="currentColor" stroke-width="1.2" opacity="0.45"/></svg>
+                        </span>
+                        <h3 class="card__title value-card__title">Suspicious behavior</h3>
+                        <p class="card__text value-card__text">Repeated loops, automated activity and abnormal listening patterns can be identified.</p>
+                    </article>
+
+                    <article class="card value-card reveal">
+                        <span class="value-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v16M5 20h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5 8l3.2 5.5a3 3 0 0 1-6.4 0L5 8ZM19 8l-3.2 5.5a3 3 0 0 0 6.4 0L19 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M3 8h4M17 8h4M12 4l-1.5 4h3L12 4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+                        </span>
+                        <h3 class="card__title value-card__title">Fair distribution</h3>
+                        <p class="card__text value-card__text">Fraudulent activity should not generate artificial financial rewards.</p>
+                    </article>
+                </div>
+
+                <div class="fraud-note reveal">
+                    <p>A handful of replays from a genuine fan is normal listening, not fraud — and how a track was made is a separate question entirely. <strong>AI music can be legitimate. Artificial streaming can be fraudulent.</strong> <span data-brand="name">BRAND</span> only looks at whether the activity behind a stream is real, never at who or what created the music.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================
+             Degressive remuneration — anti-concentration design
+             ====================================================== -->
+        <section class="section degressive" id="degressive" aria-labelledby="degressive-title">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <span class="eyebrow">Anti-concentration design</span>
+                    <h2 id="degressive-title">Reward loyalty without creating a winner-takes-all system.</h2>
+                    <p class="section-subtitle">If you spend almost all your listening time with one artist, they should benefit strongly. But as concentration on a single artist becomes more extreme, each additional share of your listening carries a little less marginal weight than the one before it.</p>
+                </div>
+
+                <div class="degressive-chart reveal">
+                    <svg viewBox="0 0 440 250" fill="none" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="degressive-bar-fill" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="var(--color-blue-bright)"/>
+                                <stop offset="1" stop-color="var(--color-violet-soft)"/>
+                            </linearGradient>
+                        </defs>
+
+                        <line x1="20" y1="190" x2="420" y2="190" stroke="var(--color-border)" stroke-width="1"/>
+
+                        <rect x="40" y="40" width="56" height="150" rx="8" fill="url(#degressive-bar-fill)"/>
+                        <rect x="116" y="86" width="56" height="104" rx="8" fill="url(#degressive-bar-fill)"/>
+                        <rect x="192" y="120" width="56" height="70" rx="8" fill="url(#degressive-bar-fill)"/>
+                        <rect x="268" y="148" width="56" height="42" rx="8" fill="url(#degressive-bar-fill)"/>
+                        <rect x="344" y="170" width="56" height="20" rx="8" fill="url(#degressive-bar-fill)"/>
+
+                        <path d="M68,40 C100,40 112,86 144,86 S208,120 220,120 S284,148 296,148 S360,170 372,170" stroke="var(--color-text)" stroke-width="2" stroke-dasharray="3 5" stroke-linecap="round" opacity="0.8"/>
+                        <circle cx="68" cy="40" r="4" fill="var(--color-text)"/>
+                        <circle cx="144" cy="86" r="4" fill="var(--color-text)"/>
+                        <circle cx="220" cy="120" r="4" fill="var(--color-text)"/>
+                        <circle cx="296" cy="148" r="4" fill="var(--color-text)"/>
+                        <circle cx="372" cy="170" r="4" fill="var(--color-text)"/>
+
+                        <text x="68" y="208" text-anchor="middle" font-size="11" fill="var(--color-text-muted)">1st</text>
+                        <text x="144" y="208" text-anchor="middle" font-size="11" fill="var(--color-text-muted)">2nd</text>
+                        <text x="220" y="208" text-anchor="middle" font-size="11" fill="var(--color-text-muted)">3rd</text>
+                        <text x="296" y="208" text-anchor="middle" font-size="11" fill="var(--color-text-muted)">4th</text>
+                        <text x="372" y="208" text-anchor="middle" font-size="11" fill="var(--color-text-muted)">Extreme</text>
+
+                        <text x="220" y="234" text-anchor="middle" font-size="11" fill="var(--color-text-muted)" letter-spacing="0.03em">CONCENTRATION ON ONE ARTIST →</text>
+                        <text x="26" y="115" text-anchor="middle" font-size="11" fill="var(--color-text-muted)" letter-spacing="0.03em" transform="rotate(-90 26 115)">MARGINAL WEIGHT</text>
+                    </svg>
+
+                    <div class="degressive-legend">
+                        <span>First tranche <strong>→ 100% weight</strong></span>
+                        <span>Second tranche <strong>→ lower weight</strong></span>
+                        <span>Extreme concentration <strong>→ progressively lower marginal weight</strong></span>
+                    </div>
+                </div>
+
+                <p class="degressive-disclaimer reveal">Conceptual illustration only — not a formula. Exact tranches and weights are not finalized.</p>
+
+                <blockquote class="degressive-quote reveal">
+                    <p>The goal is not to punish successful artists. It is to reduce incentives for extreme concentration, manipulation and artificial listening while keeping genuine support valuable.</p>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- ======================================================
+             Closing CTA
+             ====================================================== -->
+        <section class="section page-cta">
+            <div class="container">
+                <h2 class="page-cta__title">Ready to hear the difference?</h2>
+                <div class="page-cta__actions">
+                    <a class="btn btn--primary" data-brand-href="appUrl" href="https://music-app-1-0-0.vercel.app">Start listening</a>
+                    <a class="btn btn--secondary" data-brand-href="creatorUrl" href="https://creator-app-pearl-pi.vercel.app">Join as a creator</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================================
+         Footer
+         ========================================================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__top">
+                <div class="footer__brand">
+                    <p class="footer__brand-name" data-brand="name">BRAND</p>
+                    <p data-brand="tagline">Your music. Your artists. Your impact.</p>
+                </div>
+
+                <div class="footer__columns">
+                    <div class="footer__column">
+                        <p class="footer__column-title">Product</p>
+                        <ul>
+                            <li><a href="index.html#music">Music</a></li>
+                            <li><a href="index.html#discover">Discover</a></li>
+                            <li><a href="index.html#artists">Artists</a></li>
+                            <li><a href="index.html#how-it-works">How it works</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__column">
+                        <p class="footer__column-title">Creators</p>
+                        <ul>
+                            <li><a href="creators.html">Creator Studio</a></li>
+                            <li><a href="#release-music">Release music</a></li>
+                            <li><a href="#analytics">Analytics</a></li>
+                            <li><a href="#revenue">Revenue</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__column">
+                        <p class="footer__column-title">Company</p>
+                        <ul>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="#careers">Careers</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__column">
+                        <p class="footer__column-title">Legal</p>
+                        <ul>
+                            <li><a href="#terms">Terms</a></li>
+                            <li><a href="#privacy">Privacy</a></li>
+                            <li><a href="#copyright">Copyright</a></li>
+                            <li><a href="about.html#human-ai">AI transparency</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__column">
+                        <p class="footer__column-title">Social</p>
+                        <ul>
+                            <li><a href="#instagram">Instagram</a></li>
+                            <li><a href="#tiktok">TikTok</a></li>
+                            <li><a href="#youtube">YouTube</a></li>
+                            <li><a href="#x">X</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <span>&copy; <span data-current-year>2025</span> <span data-brand="name">BRAND</span>. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/brand.js?v=5"></script>
+    <script src="js/links.js?v=5"></script>
+    <script src="js/main.js?v=5"></script>
+</body>
+</html>
