@@ -1,0 +1,1299 @@
+/* ==========================================================================
+   Vynl — site vitrine
+   Identité : nocturne et chaleureuse, le sillon du vinyle comme fil conducteur.
+   Cuivre = actions (bouton, progression, badge IA). Braise = accent discret.
+   ========================================================================== */
+
+:root {
+  /* Palette */
+  --ink: #15120F;
+  --surface: #201B17;
+  --copper: #D98B3D;
+  --ember: #B5432B;
+  --cream: #F4ECE0;
+
+  /* Dérivées de la crème (jamais de gris neutre) */
+  --cream-muted: rgba(244, 236, 224, 0.68);
+  --cream-soft: rgba(244, 236, 224, 0.42);
+  --line: rgba(244, 236, 224, 0.12);
+  --line-strong: rgba(244, 236, 224, 0.28);
+
+  /* Typographie */
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Forme */
+  --radius: 12px;
+  --radius-sm: 10px;
+  --radius-tag: 6px;
+
+  /* Mise en page */
+  --max: 1160px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --header-h: 68px;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Grain très léger : un peu de matière, comme du papier ou du carton de pochette */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .88  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+h1 em,
+h2 em,
+h3 em {
+  font-style: italic;
+  font-weight: 300;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-color: var(--copper);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 200;
+  padding: 0.6rem 1rem;
+  background: var(--cream);
+  color: var(--ink);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* --------------------------------------------------------------------------
+   Motif : le sillon
+   -------------------------------------------------------------------------- */
+
+/* Cercles concentriques en filigrane, jamais en illustration frontale */
+.has-grooves {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.grooves {
+  position: absolute;
+  z-index: -1;
+  width: var(--size, 760px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: repeating-radial-gradient(
+    circle closest-side,
+    transparent 0 9px,
+    rgba(244, 236, 224, 0.07) 9px 10px
+  );
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 25%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 25%, transparent 100%);
+}
+
+/* Trois filets serrés : l'espace entre deux plages d'un disque */
+.rule {
+  height: 9px;
+  border: 0;
+  background: linear-gradient(
+    var(--line) 0 1px,
+    transparent 1px 4px,
+    var(--line) 4px 5px,
+    transparent 5px 8px,
+    var(--line) 8px 9px
+  );
+}
+
+/* --------------------------------------------------------------------------
+   Composants
+   -------------------------------------------------------------------------- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  color: var(--cream-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 0.975rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.btn--primary {
+  background: var(--copper);
+  color: var(--ink);
+}
+
+.btn--primary:hover {
+  background: color-mix(in srgb, var(--copper) 82%, var(--cream));
+}
+
+.btn--ghost {
+  border-color: var(--line-strong);
+  color: var(--cream);
+}
+
+.btn--ghost:hover {
+  border-color: var(--cream-soft);
+  background: var(--surface);
+}
+
+.btn--sm {
+  padding: 0.6rem 1.1rem;
+  font-size: 0.9rem;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--cream);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 2px;
+  transition: border-color 0.2s;
+}
+
+.text-link:hover {
+  border-bottom-color: var(--copper);
+}
+
+.card {
+  padding: clamp(22px, 3vw, 32px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.card .icon {
+  margin-bottom: 1.25rem;
+  color: var(--cream-muted);
+}
+
+.card h3 {
+  margin-bottom: 0.6rem;
+  font-size: 1.35rem;
+}
+
+.card p {
+  color: var(--cream-muted);
+  font-size: 0.975rem;
+}
+
+/* Badges de provenance : simple contour, le texte suffit */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.65rem;
+  border: 1px solid var(--cream-soft);
+  border-radius: var(--radius-tag);
+  color: var(--cream);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge--ai {
+  border-color: var(--copper);
+  color: var(--copper);
+}
+
+/* Statut d'une fonctionnalité */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-tag);
+  color: var(--cream-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cream);
+}
+
+.status--soon {
+  border-style: dashed;
+}
+
+.status--soon::before {
+  background: transparent;
+  border: 1px solid var(--cream-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(21, 18, 15, 0.86);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  min-height: var(--header-h);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.logo__mark {
+  width: 28px;
+  height: 28px;
+}
+
+.logo__dot {
+  fill: var(--copper);
+}
+
+.logo__word {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.nav a {
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  color: var(--cream-muted);
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav a:hover,
+.nav a[aria-current="page"] {
+  color: var(--cream);
+}
+
+.nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-color: var(--copper);
+  text-underline-offset: 0.5em;
+}
+
+.nav__mobile-only {
+  display: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-actions .login {
+  padding: 0.5rem 0.85rem;
+  color: var(--cream-muted);
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.header-actions .login:hover {
+  color: var(--cream);
+}
+
+.nav-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--cream);
+  cursor: pointer;
+}
+
+.nav-toggle .icon {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.nav-toggle .icon--close {
+  display: none;
+}
+
+.site-header[data-open="true"] .nav-toggle .icon--open {
+  display: none;
+}
+
+.site-header[data-open="true"] .nav-toggle .icon--close {
+  display: block;
+}
+
+@media (max-width: 860px) {
+  .site-header__inner {
+    gap: 1rem;
+  }
+
+  .header-actions {
+    margin-left: auto;
+  }
+
+  .header-actions .login {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding: 0.5rem var(--gutter) 1.25rem;
+    background: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header[data-open="true"] .nav {
+    display: flex;
+  }
+
+  .nav a {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    font-size: 1.05rem;
+  }
+
+  .nav a[aria-current="page"] {
+    text-decoration: none;
+    color: var(--copper);
+  }
+
+  .nav__mobile-only {
+    display: block;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Sections
+   -------------------------------------------------------------------------- */
+
+.section {
+  padding-block: clamp(72px, 10vw, 128px);
+}
+
+.section--surface {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.section__head {
+  max-width: 660px;
+  margin-bottom: clamp(36px, 5vw, 60px);
+}
+
+.section__head h2 {
+  font-size: clamp(2rem, 4.4vw, 3.25rem);
+}
+
+.section__head p {
+  margin-top: 1.25rem;
+  color: var(--cream-muted);
+  font-size: 1.125rem;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+}
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+
+.hero {
+  padding-block: clamp(48px, 8vw, 104px) clamp(64px, 9vw, 120px);
+}
+
+.hero .grooves {
+  right: -260px;
+  top: 50%;
+  translate: 0 -50%;
+  --size: 1000px;
+}
+
+.hero__grid {
+  display: grid;
+  align-items: center;
+  gap: clamp(40px, 6vw, 88px);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+}
+
+.hero h1 {
+  font-size: clamp(2.75rem, 6.6vw, 5rem);
+  font-weight: 350;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+.hero__lead {
+  max-width: 34rem;
+  margin-block: 1.75rem 2.25rem;
+  color: var(--cream-muted);
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+}
+
+@media (max-width: 860px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Le disque
+   Le cercle structure l'écran : les sillons remplissent l'espace, l'arc cuivre
+   dans la dernière plage est la position dans le morceau.
+   -------------------------------------------------------------------------- */
+
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.record {
+  --cycle: 42s;
+  position: relative;
+  width: min(100%, 460px);
+  aspect-ratio: 1;
+}
+
+.record__disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle closest-side, transparent 0 95.5%, #0a0806 95.5%),
+    repeating-radial-gradient(circle closest-side, #0f0c0a 0 1.4px, #1b1612 1.4px 3px);
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(244, 236, 224, 0.07);
+}
+
+/* Reflet fixe : c'est le disque qui tourne sous la lumière, pas l'inverse */
+.record__disc::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 35deg,
+    transparent 0 8%,
+    rgba(244, 236, 224, 0.11) 14%,
+    transparent 22% 58%,
+    rgba(244, 236, 224, 0.08) 64%,
+    transparent 72%
+  );
+}
+
+.record__label {
+  position: absolute;
+  inset: 33%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.record__label svg {
+  width: 100%;
+  height: 100%;
+}
+
+.record__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.record__gap {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.6);
+  stroke-width: 0.5;
+}
+
+.record__track {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 0.6;
+}
+
+.record__arc {
+  fill: none;
+  stroke: var(--copper);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.record__head {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+}
+
+.record__head circle {
+  fill: var(--copper);
+}
+
+.record__text {
+  fill: var(--cream);
+  font-family: var(--font-body);
+  font-size: 5.2px;
+  font-weight: 600;
+}
+
+/* Les animations existent toujours mais restent en pause : la pause fige le
+   disque à sa position. Seul .is-playing (posé par le JS) les fait tourner.
+   Le décalage négatif place l'état de repos à ~38 % du morceau. */
+.record__label,
+.record__arc,
+.record__head {
+  animation-play-state: paused;
+}
+
+.record__label {
+  animation: spin 14s linear infinite;
+}
+
+.record__arc {
+  animation: progress var(--cycle) linear infinite;
+  animation-delay: calc(var(--cycle) * -0.38);
+}
+
+.record__head {
+  animation: spin var(--cycle) linear infinite;
+  animation-delay: calc(var(--cycle) * -0.38);
+}
+
+.record.is-playing .record__label,
+.record.is-playing .record__arc,
+.record.is-playing .record__head {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes progress {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.transport {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  color: var(--cream-muted);
+  font-size: 0.85rem;
+}
+
+.js .transport {
+  display: flex;
+}
+
+.play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  background: var(--copper);
+  border: 0;
+  border-radius: 50%;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.play-btn:hover {
+  background: color-mix(in srgb, var(--copper) 82%, var(--cream));
+}
+
+.play-btn:active {
+  transform: scale(0.96);
+}
+
+.play-btn .icon {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  stroke-width: 1.6;
+}
+
+.play-btn[aria-pressed="true"] .icon--play,
+.play-btn[aria-pressed="false"] .icon--pause {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Étiquettes (provenance)
+   -------------------------------------------------------------------------- */
+
+.label-list {
+  border-bottom: 1px solid var(--line);
+}
+
+.label-row {
+  display: grid;
+  gap: 0.5rem 2rem;
+  align-items: baseline;
+  grid-template-columns: 150px 1fr;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.label-row p {
+  max-width: 44rem;
+  color: var(--cream-muted);
+}
+
+.label-row strong {
+  color: var(--cream);
+  font-weight: 500;
+}
+
+.label-note {
+  margin-top: 2rem;
+}
+
+@media (max-width: 620px) {
+  .label-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .label-row .badge {
+    justify-self: start;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Catalogue réel (API) : pochettes découpées en disque
+   -------------------------------------------------------------------------- */
+
+.crate {
+  display: grid;
+  gap: clamp(20px, 3vw, 32px);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+}
+
+.disc {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #0f0c0a;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--line);
+}
+
+.disc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.disc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: repeating-radial-gradient(
+    circle closest-side,
+    rgba(0, 0, 0, 0.3) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+.disc::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: 14%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 1px var(--line-strong);
+  translate: -50% -50%;
+}
+
+/* Pas de pochette : une étiquette braise, comme sur un disque nu */
+.disc--blank {
+  background:
+    radial-gradient(circle closest-side, var(--ember) 0 34%, transparent 34%),
+    repeating-radial-gradient(circle closest-side, #0f0c0a 0 1.4px, #1b1612 1.4px 3px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .crate__item:hover .disc img {
+    animation: spin 12s linear infinite;
+  }
+}
+
+.crate__title {
+  margin-top: 0.9rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.crate__artist {
+  color: var(--cream-muted);
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.section__foot {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+/* --------------------------------------------------------------------------
+   Bandeau créateurs / listes
+   -------------------------------------------------------------------------- */
+
+.split {
+  display: grid;
+  align-items: center;
+  gap: clamp(32px, 6vw, 88px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.split h2 {
+  font-size: clamp(2rem, 4.4vw, 3.25rem);
+}
+
+.split__lead {
+  margin-block: 1.25rem 2rem;
+  color: var(--cream-muted);
+  font-size: 1.125rem;
+}
+
+.check-list li {
+  display: flex;
+  gap: 0.9rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.check-list li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.check-list .icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-top: 0.15rem;
+  color: var(--copper);
+}
+
+.check-list span {
+  color: var(--cream-muted);
+}
+
+.check-list strong {
+  color: var(--cream);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Étapes numérotées
+   -------------------------------------------------------------------------- */
+
+.steps {
+  display: grid;
+  gap: 20px;
+  counter-reset: step;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+}
+
+.steps li {
+  counter-increment: step;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-strong);
+}
+
+.steps li::before {
+  content: counter(step, decimal-leading-zero);
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--cream-soft);
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.steps h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.steps p {
+  color: var(--cream-muted);
+  font-size: 0.975rem;
+}
+
+/* --------------------------------------------------------------------------
+   Fonctionnalités du Studio
+   -------------------------------------------------------------------------- */
+
+.feature__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.feature__top .icon {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Transparence : schéma des sillons + comparaison
+   -------------------------------------------------------------------------- */
+
+.diagram {
+  display: grid;
+  align-items: center;
+  gap: clamp(28px, 5vw, 64px);
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+}
+
+@media (max-width: 760px) {
+  .diagram {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+}
+
+.diagram svg {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
+.diagram__track {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 0.6;
+}
+
+.diagram__arc {
+  fill: none;
+  stroke: var(--copper);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.diagram__core {
+  fill: var(--ember);
+}
+
+.diagram__legend {
+  align-self: stretch;
+}
+
+.diagram__legend li {
+  display: flex;
+  gap: 1rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.diagram__legend li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.diagram__legend strong {
+  flex: none;
+  min-width: 7.5rem;
+  font-weight: 500;
+}
+
+.diagram__legend span {
+  color: var(--cream-muted);
+}
+
+.fine-print {
+  margin-top: 1.5rem;
+  color: var(--cream-soft);
+  font-size: 0.875rem;
+}
+
+.compare {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+.compare .card--accent {
+  border-color: var(--line-strong);
+}
+
+.compare .tag {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--cream-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.compare .card--accent .tag {
+  color: var(--copper);
+}
+
+.notice {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ember);
+  border-radius: var(--radius-sm);
+  color: var(--cream-muted);
+  font-size: 0.975rem;
+}
+
+.notice strong {
+  color: var(--cream);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Appel final
+   -------------------------------------------------------------------------- */
+
+.cta {
+  padding-block: clamp(80px, 12vw, 152px);
+  text-align: center;
+}
+
+.cta .grooves {
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  --size: 1100px;
+}
+
+.cta h2 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 350;
+  letter-spacing: -0.025em;
+}
+
+.cta p {
+  max-width: 30rem;
+  margin: 1.25rem auto 2.25rem;
+  color: var(--cream-muted);
+  font-size: 1.125rem;
+}
+
+.cta .btn-row {
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   Pied de page
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  padding-block: clamp(48px, 7vw, 80px) 32px;
+  background: var(--ink);
+}
+
+.site-footer__grid {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  margin-top: clamp(40px, 6vw, 64px);
+}
+
+@media (max-width: 760px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .site-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+.site-footer__brand p {
+  max-width: 20rem;
+  margin-top: 1rem;
+  color: var(--cream-muted);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.site-footer h2 {
+  margin-bottom: 1rem;
+  color: var(--cream-soft);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.site-footer li + li {
+  margin-top: 0.6rem;
+}
+
+.site-footer li a {
+  color: var(--cream-muted);
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.site-footer li a:hover {
+  color: var(--cream);
+}
+
+.site-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: clamp(40px, 6vw, 64px);
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--cream-soft);
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   Apparition au défilement (activée seulement si le JS tourne)
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js [data-reveal-delay="1"] {
+    transition-delay: 0.08s;
+  }
+
+  .js [data-reveal-delay="2"] {
+    transition-delay: 0.16s;
+  }
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transparency — Vynl</title>
+  <meta name="description" content="How Vynl labels music as human, AI-assisted or AI-generated, and how user-centric royalties are meant to follow your listening.">
+  <meta name="theme-color" content="#15120F">
+  <meta property="og:site_name" content="Vynl">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Transparency — Vynl">
+  <meta property="og:description" content="How tracks are labeled, and how your listening is meant to decide who gets paid.">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-open="false">
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Vynl — home">
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-opacity=".35"/>
+          <circle cx="16" cy="16" r="9.5" fill="none" stroke="currentColor" stroke-opacity=".6"/>
+          <circle cx="16" cy="16" r="4.5" fill="none" stroke="currentColor"/>
+          <circle class="logo__dot" cx="16" cy="16" r="1.7"/>
+        </svg>
+        <span class="logo__word">Vynl</span>
+      </a>
+
+      <nav class="nav" id="site-nav" aria-label="Main">
+        <a href="transparency.html#labels">Labels</a>
+        <a href="transparency.html#royalties">Royalties</a>
+        <a href="creators.html">Creators</a>
+        <a class="nav__mobile-only" href="https://music-app-1-0-0.vercel.app/login" data-link="login">Log in</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="login" href="https://music-app-1-0-0.vercel.app/login" data-link="login">Log in</a>
+        <a class="btn btn--primary btn--sm" href="https://music-app-1-0-0.vercel.app/signup" data-link="signup">Start listening</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <svg class="icon icon--open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+          <svg class="icon icon--close" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero has-grooves">
+      <div class="grooves" aria-hidden="true"></div>
+      <div class="container">
+        <div style="max-width: 46rem;">
+          <p class="eyebrow">Transparency</p>
+          <h1>No black box. <em>Just a clear groove.</em></h1>
+          <p class="hero__lead">Two questions deserve a straight answer: how was this music made, and where does my subscription go? Here is how Vynl approaches both.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="rule" aria-hidden="true"></div></div>
+
+    <!-- Étiquettes -->
+    <section class="section" id="labels">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow">Labels</p>
+          <h2>How a track <em>is labeled.</em></h2>
+          <p>Every track carries one of three labels. Creators choose it when they release, and they can add a few words to explain.</p>
+        </div>
+
+        <div class="label-list" data-reveal>
+          <div class="label-row">
+            <span class="badge">Human</span>
+            <p><strong>Composed, performed and produced by people.</strong> No AI system had a creative hand in it.</p>
+          </div>
+          <div class="label-row">
+            <span class="badge badge--ai">AI-assisted</span>
+            <p><strong>People and AI tools worked together.</strong> A person leads the work and uses AI for part of it, for instance a melody idea, a stem or a mix. The creator can describe how.</p>
+          </div>
+          <div class="label-row">
+            <span class="badge badge--ai">AI-generated</span>
+            <p><strong>Produced mostly or entirely by an AI system.</strong> These tracks are welcome on Vynl. They are simply never passed off as something else.</p>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top: 2.5rem;">
+          <article class="card" data-reveal>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <h3>Declared by the creator</h3>
+            <p>The label comes from the person who made the track, at the moment they release it.</p>
+          </article>
+          <article class="card" data-reveal data-reveal-delay="1">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <h3>Kept as a history</h3>
+            <p>A new declaration never overwrites the old one. Every version stays on record.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Royalties -->
+    <section class="section section--surface" id="royalties">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow">Royalties</p>
+          <h2>Your listening decides <em>who gets paid.</em></h2>
+          <p>Vynl is built around user-centric royalties: the artists you play are the ones your subscription supports.</p>
+        </div>
+
+        <div class="compare" data-reveal>
+          <article class="card">
+            <span class="tag">Pooled model</span>
+            <h3>One big pot</h3>
+            <p>Many services put every subscription into a single pool and split it by total streams. The music you actually play can end up funding what you never do.</p>
+          </article>
+          <article class="card card--accent">
+            <span class="tag">User-centric · Vynl</span>
+            <h3>Your money follows your ears</h3>
+            <p>Your subscription is shared among the artists you played, in proportion to how much you played each of them.</p>
+          </article>
+        </div>
+
+        <figure class="diagram" style="margin: clamp(48px, 7vw, 88px) 0 0;" data-reveal>
+          <svg viewBox="0 0 200 200" role="img" aria-label="Three concentric rings around a core. Each ring is partly filled to show how one listener's plays were split between three artists.">
+            <circle class="diagram__track" cx="100" cy="100" r="40"/>
+            <circle class="diagram__track" cx="100" cy="100" r="62"/>
+            <circle class="diagram__track" cx="100" cy="100" r="84"/>
+            <circle class="diagram__arc" cx="100" cy="100" r="40" pathLength="100" stroke-dasharray="62 100" transform="rotate(-90 100 100)"/>
+            <circle class="diagram__arc" cx="100" cy="100" r="62" pathLength="100" stroke-dasharray="28 100" transform="rotate(-90 100 100)"/>
+            <circle class="diagram__arc" cx="100" cy="100" r="84" pathLength="100" stroke-dasharray="10 100" transform="rotate(-90 100 100)"/>
+            <circle class="diagram__core" cx="100" cy="100" r="14"/>
+          </svg>
+          <figcaption class="diagram__legend">
+            <ul>
+              <li><strong>Most played</strong><span>The artist you keep coming back to gets the biggest share of your subscription.</span></li>
+              <li><strong>Sometimes</strong><span>The ones you play now and then get a smaller share, in proportion.</span></li>
+              <li><strong>Once</strong><span>An artist you tried a single time still counts.</span></li>
+            </ul>
+            <p class="fine-print">Illustrative only. Real shares depend entirely on your own listening.</p>
+          </figcaption>
+        </figure>
+
+        <div class="notice" style="margin-top: clamp(40px, 6vw, 72px);" data-reveal>
+          <p><strong>Where things stand.</strong> Royalty payouts are not live during the beta. The calculation and reporting are still being built, and this page will explain exactly how it works.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta has-grooves">
+      <div class="grooves" aria-hidden="true"></div>
+      <div class="container" data-reveal>
+        <h2>Listen <em>closely.</em></h2>
+        <p>See the labels for yourself, and hear who's behind the music.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="https://music-app-1-0-0.vercel.app/signup" data-link="signup">Start listening</a>
+          <a class="btn btn--ghost" href="creators.html">For creators</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="rule" aria-hidden="true"></div>
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <a class="logo" href="index.html" aria-label="Vynl — home">
+            <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+              <circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-opacity=".35"/>
+              <circle cx="16" cy="16" r="9.5" fill="none" stroke="currentColor" stroke-opacity=".6"/>
+              <circle cx="16" cy="16" r="4.5" fill="none" stroke="currentColor"/>
+              <circle class="logo__dot" cx="16" cy="16" r="1.7"/>
+            </svg>
+            <span class="logo__word">Vynl</span>
+          </a>
+          <p>Music for the late hours.</p>
+        </div>
+        <div>
+          <h2>Listen</h2>
+          <ul>
+            <li><a href="https://music-app-1-0-0.vercel.app/signup" data-link="signup">Start listening</a></li>
+            <li><a href="https://music-app-1-0-0.vercel.app/login" data-link="login">Log in</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Creators</h2>
+          <ul>
+            <li><a href="creators.html">Creator Studio</a></li>
+            <li><a href="https://creator-app-pearl-pi.vercel.app/signup" data-link="creatorSignup">Join as a creator</a></li>
+            <li><a href="https://creator-app-pearl-pi.vercel.app/login" data-link="creatorLogin">Studio log in</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Transparency</h2>
+          <ul>
+            <li><a href="transparency.html#labels">Labels</a></li>
+            <li><a href="transparency.html#royalties">Royalties</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__legal">
+        <span>© <span data-year>2026</span> Vynl</span>
+        <span>Beta</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creator Studio — Vynl</title>
+  <meta name="description" content="Upload tracks, build releases, shape your artist page and declare how each track was made. Creator Studio welcomes human, AI-assisted and AI-generated music, honestly labeled.">
+  <meta name="theme-color" content="#15120F">
+  <meta property="og:site_name" content="Vynl">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Creator Studio — Vynl">
+  <meta property="og:description" content="A studio for people who make records: upload, release, and say how it was made.">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-open="false">
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Vynl — home">
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-opacity=".35"/>
+          <circle cx="16" cy="16" r="9.5" fill="none" stroke="currentColor" stroke-opacity=".6"/>
+          <circle cx="16" cy="16" r="4.5" fill="none" stroke="currentColor"/>
+          <circle class="logo__dot" cx="16" cy="16" r="1.7"/>
+        </svg>
+        <span class="logo__word">Vynl</span>
+      </a>
+
+      <nav class="nav" id="site-nav" aria-label="Main">
+        <a href="transparency.html#labels">Labels</a>
+        <a href="transparency.html#royalties">Royalties</a>
+        <a href="creators.html" aria-current="page">Creators</a>
+        <a class="nav__mobile-only" href="https://music-app-1-0-0.vercel.app/login" data-link="login">Log in</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="login" href="https://music-app-1-0-0.vercel.app/login" data-link="login">Log in</a>
+        <a class="btn btn--primary btn--sm" href="https://music-app-1-0-0.vercel.app/signup" data-link="signup">Start listening</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <svg class="icon icon--open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+          <svg class="icon icon--close" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero has-grooves">
+      <div class="grooves" aria-hidden="true"></div>
+      <div class="container">
+        <div style="max-width: 46rem;">
+          <p class="eyebrow">Creator Studio</p>
+          <h1>A studio for <em>people who make records.</em></h1>
+          <p class="hero__lead">Upload your tracks, group them into releases, shape your artist page — and say, track by track, how the music was made. Human, AI-assisted or fully AI-generated: you're welcome here, and honestly labeled.</p>
+          <div class="btn-row">
+            <a class="btn btn--primary" href="https://creator-app-pearl-pi.vercel.app/signup" data-link="creatorSignup">Join as a creator</a>
+            <a class="btn btn--ghost" href="https://creator-app-pearl-pi.vercel.app/login" data-link="creatorLogin">Studio log in</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="rule" aria-hidden="true"></div></div>
+
+    <!-- Fonctionnalités : uniquement ce qui existe, le reste est marqué "Coming" -->
+    <section class="section" id="studio">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow">Inside the Studio</p>
+          <h2>Everything you need <em>to put a record out.</em></h2>
+          <p>What's live in the beta today, and what's still on the way.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card" data-reveal>
+            <div class="feature__top">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
+              <span class="status">Live</span>
+            </div>
+            <h3>Music</h3>
+            <p>Upload your audio, keep tracks as drafts and send them for review when they're ready.</p>
+          </article>
+
+          <article class="card" data-reveal data-reveal-delay="1">
+            <div class="feature__top">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
+              <span class="status">Live</span>
+            </div>
+            <h3>Releases</h3>
+            <p>Group tracks into singles, EPs, albums and compilations, and reorder them as you go.</p>
+          </article>
+
+          <article class="card" data-reveal data-reveal-delay="2">
+            <div class="feature__top">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+              <span class="status">Live</span>
+            </div>
+            <h3>Artist page</h3>
+            <p>An avatar, a banner, your bio and your country: your public presence on Vynl.</p>
+          </article>
+
+          <article class="card" data-reveal>
+            <div class="feature__top">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="status">Live</span>
+            </div>
+            <h3>AI declaration</h3>
+            <p>Declare each track as human, AI-assisted or AI-generated. Your declarations are kept as a history, never overwritten.</p>
+          </article>
+
+          <article class="card" data-reveal data-reveal-delay="1">
+            <div class="feature__top">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14a6.5 6.5 0 0 1 3.5 6"/></svg>
+              <span class="status">Live</span>
+            </div>
+            <h3>Audience</h3>
+            <p>Your follower count and how it grew over the last thirty days.</p>
+          </article>
+
+          <article class="card" data-reveal data-reveal-delay="2">
+            <div class="feature__top">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V11"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M21 20H3"/></svg>
+              <span class="status">Live</span>
+            </div>
+            <h3>Catalog analytics</h3>
+            <p>Your catalog at a glance: tracks by status, releases by type, how much is human or AI, total duration.</p>
+          </article>
+
+          <article class="card" data-reveal>
+            <div class="feature__top">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg>
+              <span class="status status--soon">Coming</span>
+            </div>
+            <h3>Listening stats</h3>
+            <p>Plays, unique listeners, top tracks and where your audience listens from.</p>
+          </article>
+
+          <article class="card" data-reveal data-reveal-delay="1">
+            <div class="feature__top">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3 3 0 0 0-5 1.5c0 3 5 1.5 5 4.5a3 3 0 0 1-5 1.5M12 6.5V8M12 16v1.5"/></svg>
+              <span class="status status--soon">Coming</span>
+            </div>
+            <h3>Revenue &amp; wallet</h3>
+            <p>Royalties and payouts, once the royalty model goes live.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Parcours -->
+    <section class="section section--surface" id="how">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow">From file to catalog</p>
+          <h2>Four steps, <em>no detour.</em></h2>
+        </div>
+
+        <ol class="steps" data-reveal>
+          <li>
+            <h3>Create your artist page</h3>
+            <p>Pick a name, then add an avatar, a banner and a few words about you.</p>
+          </li>
+          <li>
+            <h3>Upload and declare</h3>
+            <p>Add your audio, group tracks into a release and declare how each one was made.</p>
+          </li>
+          <li>
+            <h3>Send for review</h3>
+            <p>Tracks are reviewed before they go live in the catalog.</p>
+          </li>
+          <li>
+            <h3>Reach listeners</h3>
+            <p>Published tracks appear on Vynl, and your audience starts to build.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Ce que Vynl demande -->
+    <section class="section" id="terms">
+      <div class="container split">
+        <div data-reveal>
+          <p class="eyebrow">Before you start</p>
+          <h2>A short questionnaire, <em>on purpose.</em></h2>
+          <p class="split__lead">Trust runs both ways. Joining as a creator asks you for a few things up front.</p>
+        </div>
+
+        <ul class="check-list" data-reveal data-reveal-delay="1">
+          <li>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+            <span><strong>Accept the Creator Terms.</strong> The rules of the road for publishing on Vynl.</span>
+          </li>
+          <li>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+            <span><strong>Confirm you hold the rights</strong> to the content you'll upload.</span>
+          </li>
+          <li>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+            <span><strong>Tell us how you work:</strong> human, AI, or a mix of both.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="cta has-grooves">
+      <div class="grooves" aria-hidden="true"></div>
+      <div class="container" data-reveal>
+        <h2>Ready to <em>press play?</em></h2>
+        <p>Open the Studio, create your artist page and release your first track.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="https://creator-app-pearl-pi.vercel.app/signup" data-link="creatorSignup">Join as a creator</a>
+          <a class="btn btn--ghost" href="index.html">Back to Vynl</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="rule" aria-hidden="true"></div>
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <a class="logo" href="index.html" aria-label="Vynl — home">
+            <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+              <circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-opacity=".35"/>
+              <circle cx="16" cy="16" r="9.5" fill="none" stroke="currentColor" stroke-opacity=".6"/>
+              <circle cx="16" cy="16" r="4.5" fill="none" stroke="currentColor"/>
+              <circle class="logo__dot" cx="16" cy="16" r="1.7"/>
+            </svg>
+            <span class="logo__word">Vynl</span>
+          </a>
+          <p>Music for the late hours.</p>
+        </div>
+        <div>
+          <h2>Listen</h2>
+          <ul>
+            <li><a href="https://music-app-1-0-0.vercel.app/signup" data-link="signup">Start listening</a></li>
+            <li><a href="https://music-app-1-0-0.vercel.app/login" data-link="login">Log in</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Creators</h2>
+          <ul>
+            <li><a href="creators.html">Creator Studio</a></li>
+            <li><a href="https://creator-app-pearl-pi.vercel.app/signup" data-link="creatorSignup">Join as a creator</a></li>
+            <li><a href="https://creator-app-pearl-pi.vercel.app/login" data-link="creatorLogin">Studio log in</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Transparency</h2>
+          <ul>
+            <li><a href="transparency.html#labels">Labels</a></li>
+            <li><a href="transparency.html#royalties">Royalties</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__legal">
+        <span>© <span data-year>2026</span> Vynl</span>
+        <span>Beta</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
