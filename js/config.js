@@ -15,7 +15,7 @@ window.VYNL = {
     creatorSignup: "https://creator-app-pearl-pi.vercel.app/signup",
   },
 
-  // Le site ne parle qu'à l'API, jamais directement à Supabase.
+  // Le site ne parle qu'à l'API.
   apiBase:
     window.location.hostname === "localhost"
       ? "http://localhost:4000"
