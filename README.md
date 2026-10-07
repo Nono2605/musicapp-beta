@@ -18,7 +18,7 @@ le Creator Studio, et affiche le catalogue réel via l'API publique.
 css/style.css    tokens de design + tous les composants
 js/config.js     URLs des autres apps et de l'API (seul endroit à modifier)
 js/main.js       liens, menu mobile, disque, apparition au scroll, catalogue
-favicon.svg
+favicon.png, apple-touch-icon.png, assets/vynl-icon.png
 vercel.json      { "framework": null }
 ```
 
@@ -34,22 +34,31 @@ simplement masquée.
 
 ## Identité
 
-Nocturne et chaleureuse, le sillon du vinyle comme fil conducteur.
+Direction artistique « studio d'écoute nocturne » : un fond très sombre et une
+seule source de lumière bleue qui fait briller le vinyle. Règle : 80 % de
+sombre, 15 % de bleu, 5 % de cyan (le cyan est rare : ce qui est actif).
 
 | Token | Valeur | Usage |
 | --- | --- | --- |
-| `--ink` | `#15120F` | fond principal |
-| `--surface` | `#201B17` | cartes, bandeaux |
-| `--copper` | `#D98B3D` | actions uniquement : boutons, arc de progression, badge IA |
-| `--ember` | `#B5432B` | accent discret : étiquette du disque, liseré, points de statut |
-| `--cream` | `#F4ECE0` | texte |
+| `--vynl-nuit` | `#050816` | fond principal |
+| `--vynl-abysse` | `#0B1130` | surfaces : en-tête, sections alternées |
+| `--vynl-vinyle` | `#17204F` | cartes, notices |
+| `--vynl-sillon` | `#32428C` | bordures (à 40 %), pistes de progression |
+| `--vynl-bleu` / `--vynl-bleu-profond` | `#0059F9` / `#001CB2` | boutons, survol |
+| `--vynl-cyan` | `#19E3FF` | accent rare : actif, focus, badges IA |
+| `--vynl-reflet` | `#90BFE9` | reflets, icônes secondaires |
 
-Polices : **Fraunces** (titres, logo en italique) et **IBM Plex Sans**
-(interface et texte), chargées depuis Google Fonts. Coins à 10-12 px. Icônes
-SVG en traits fins, pas d'emoji, pas de dégradé multicolore.
+Texte : blanc `#FFFFFF`, bleu-gris `#A9B4D6`, bleu-gris foncé `#6B77A6`.
 
-Le braise `#B5432B` a un contraste de ~3,4:1 sur l'encre : à réserver aux
-aplats, filets et éléments décoratifs, jamais au texte courant.
+Polices (Google Fonts) : **Dela Gothic One** pour la marque et les grands
+titres d'impact (jamais sous 24 px), **Sora** pour tout le reste. Boutons en
+pilule de 48 px, cartes à 16 px, icônes en trait de 1,75 px. Une seule lueur
+forte par écran, animations de 200 à 300 ms. Seul dégradé sur du texte :
+l'accent du titre du hero.
+
+Logo : `assets/vynl-icon.png` (icône seule, 192 px) + le nom en Dela Gothic One,
+assemblés en version horizontale dans l'en-tête et le pied de page. Favicon :
+`favicon.png` et `apple-touch-icon.png`, générés depuis la même icône.
 
 ## À savoir
 

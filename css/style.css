@@ -1,36 +1,49 @@
 /* ==========================================================================
    Vynl — site vitrine
-   Identité : nocturne et chaleureuse, le sillon du vinyle comme fil conducteur.
-   Cuivre = actions (bouton, progression, badge IA). Braise = accent discret.
+   Direction artistique : un studio d'écoute nocturne. Fond très sombre, une
+   seule source de lumière bleue qui fait briller le vinyle.
+   Règle : 80 % de sombre, 15 % de bleu, 5 % de cyan (le cyan est rare).
    ========================================================================== */
 
 :root {
   /* Palette */
-  --ink: #15120F;
-  --surface: #201B17;
-  --copper: #D98B3D;
-  --ember: #B5432B;
-  --cream: #F4ECE0;
+  --vynl-nuit: #050816;
+  --vynl-abysse: #0B1130;
+  --vynl-vinyle: #17204F;
+  --vynl-survol: #1F2A63;
+  --vynl-sillon: #32428C;
+  --vynl-bleu: #0059F9;
+  --vynl-bleu-profond: #001CB2;
+  --vynl-cyan: #19E3FF;
+  --vynl-reflet: #90BFE9;
 
-  /* Dérivées de la crème (jamais de gris neutre) */
-  --cream-muted: rgba(244, 236, 224, 0.68);
-  --cream-soft: rgba(244, 236, 224, 0.42);
-  --line: rgba(244, 236, 224, 0.12);
-  --line-strong: rgba(244, 236, 224, 0.28);
+  /* Texte sur fond sombre : trois niveaux */
+  --vynl-texte: #FFFFFF;
+  --vynl-texte-2: #A9B4D6;
+  --vynl-texte-3: #6B77A6;
 
-  /* Typographie */
-  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Bordures : sillon à 40 % */
+  --vynl-bordure: rgba(50, 66, 140, 0.4);
+
+  /* Dégradés et lueurs */
+  --vynl-degrade-vague: linear-gradient(180deg, #19E3FF 0%, #0059F9 55%, #001CB2 100%);
+  --vynl-degrade-label: linear-gradient(135deg, #19E3FF, #0059F9);
+  --vynl-lueur: 0 0 40px rgba(0, 89, 249, 0.45);
+  --vynl-lueur-cyan: 0 0 16px rgba(25, 227, 255, 0.6);
 
   /* Forme */
-  --radius: 12px;
-  --radius-sm: 10px;
-  --radius-tag: 6px;
+  --vynl-rayon-carte: 16px;
+  --vynl-rayon-champ: 12px;
+
+  /* Typographie */
+  --vynl-police-marque: "Dela Gothic One", "Arial Black", system-ui, sans-serif;
+  --vynl-police-texte: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Mise en page */
   --max: 1160px;
-  --gutter: clamp(20px, 5vw, 48px);
-  --header-h: 68px;
+  --gutter: clamp(16px, 5vw, 48px);
+  --header-h: 72px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* --------------------------------------------------------------------------
@@ -57,24 +70,14 @@ html {
 
 body {
   margin: 0;
-  background: var(--ink);
-  color: var(--cream);
-  font-family: var(--font-body);
+  background: var(--vynl-nuit);
+  color: var(--vynl-texte);
+  font-family: var(--vynl-police-texte);
   font-size: 1.0625rem;
-  line-height: 1.65;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-}
-
-/* Grain très léger : un peu de matière, comme du papier ou du carton de pochette */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  opacity: 0.06;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .88  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 img,
@@ -87,19 +90,34 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-optical-sizing: auto;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
+  font-family: var(--vynl-police-texte);
+  font-weight: 600;
+  line-height: 1.2;
   text-wrap: balance;
 }
 
-h1 em,
-h2 em,
-h3 em {
-  font-style: italic;
-  font-weight: 300;
+/* Les titres d'impact seuls prennent la police de marque (jamais sous 24 px) */
+.hero h1,
+.cta h2 {
+  font-family: var(--vynl-police-marque);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+em {
+  font-style: normal;
+  color: var(--vynl-texte-2);
+}
+
+/* Un seul dégradé sur du texte : le très grand titre ponctuel du hero */
+.hero h1 em {
+  background: linear-gradient(180deg, var(--vynl-cyan) 0%, var(--vynl-bleu) 100%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 p {
@@ -109,12 +127,12 @@ p {
 
 a {
   color: inherit;
-  text-decoration-color: var(--line-strong);
+  text-decoration-color: var(--vynl-sillon);
   text-underline-offset: 0.2em;
 }
 
 a:hover {
-  text-decoration-color: var(--copper);
+  text-decoration-color: var(--vynl-cyan);
 }
 
 ul,
@@ -124,10 +142,11 @@ ol {
   list-style: none;
 }
 
+/* Focus : anneau cyan 2 px */
 :focus-visible {
-  outline: 2px solid var(--copper);
-  outline-offset: 3px;
-  border-radius: 4px;
+  outline: 2px solid var(--vynl-cyan);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
 [hidden] {
@@ -139,11 +158,11 @@ ol {
   left: var(--gutter);
   top: -100px;
   z-index: 200;
-  padding: 0.6rem 1rem;
-  background: var(--cream);
-  color: var(--ink);
-  border-radius: var(--radius-sm);
-  font-weight: 500;
+  padding: 0.7rem 1.25rem;
+  background: var(--vynl-texte);
+  color: var(--vynl-nuit);
+  border-radius: 999px;
+  font-weight: 600;
 }
 
 .skip-link:focus {
@@ -158,10 +177,10 @@ ol {
 }
 
 /* --------------------------------------------------------------------------
-   Motif : le sillon
+   Motif : les sillons
    -------------------------------------------------------------------------- */
 
-/* Cercles concentriques en filigrane, jamais en illustration frontale */
+/* Cercles concentriques en filigrane : grands, transparents (5 à 10 %) */
 .has-grooves {
   position: relative;
   overflow: hidden;
@@ -177,8 +196,8 @@ ol {
   pointer-events: none;
   background: repeating-radial-gradient(
     circle closest-side,
-    transparent 0 9px,
-    rgba(244, 236, 224, 0.07) 9px 10px
+    transparent 0 11px,
+    rgba(144, 191, 233, 0.07) 11px 12px
   );
   -webkit-mask-image: radial-gradient(circle closest-side, #000 25%, transparent 100%);
   mask-image: radial-gradient(circle closest-side, #000 25%, transparent 100%);
@@ -189,11 +208,11 @@ ol {
   height: 9px;
   border: 0;
   background: linear-gradient(
-    var(--line) 0 1px,
+    var(--vynl-bordure) 0 1px,
     transparent 1px 4px,
-    var(--line) 4px 5px,
+    var(--vynl-bordure) 4px 5px,
     transparent 5px 8px,
-    var(--line) 8px 9px
+    var(--vynl-bordure) 8px 9px
   );
 }
 
@@ -206,11 +225,9 @@ ol {
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1.25rem;
-  color: var(--cream-muted);
-  font-size: 0.75rem;
+  color: var(--vynl-reflet);
+  font-size: 0.9375rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .eyebrow::before {
@@ -221,45 +238,61 @@ ol {
   opacity: 0.6;
 }
 
+/* Boutons : pilule de 48 px */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.85rem 1.5rem;
+  min-height: 48px;
+  padding: 0 1.75rem;
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   font: inherit;
-  font-size: 0.975rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn--primary {
-  background: var(--copper);
-  color: var(--ink);
+  background: var(--vynl-bleu);
+  color: var(--vynl-texte);
 }
 
 .btn--primary:hover {
-  background: color-mix(in srgb, var(--copper) 82%, var(--cream));
+  background: var(--vynl-bleu-profond);
+  box-shadow: var(--vynl-lueur);
+}
+
+.btn--primary:active {
+  background: var(--vynl-bleu-profond);
 }
 
 .btn--ghost {
-  border-color: var(--line-strong);
-  color: var(--cream);
+  border-color: var(--vynl-sillon);
+  color: var(--vynl-texte);
 }
 
 .btn--ghost:hover {
-  border-color: var(--cream-soft);
-  background: var(--surface);
+  background: var(--vynl-vinyle);
+}
+
+.btn--ghost:active {
+  background: var(--vynl-abysse);
 }
 
 .btn--sm {
-  padding: 0.6rem 1.1rem;
-  font-size: 0.9rem;
+  min-height: 40px;
+  padding: 0 1.25rem;
+  font-size: 0.9375rem;
 }
 
 .btn-row {
@@ -272,84 +305,87 @@ ol {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: var(--cream);
-  font-weight: 500;
+  color: var(--vynl-texte);
+  font-weight: 600;
   text-decoration: none;
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--vynl-sillon);
   padding-bottom: 2px;
-  transition: border-color 0.2s;
+  transition: border-color 0.25s var(--ease);
 }
 
 .text-link:hover {
-  border-bottom-color: var(--copper);
+  border-bottom-color: var(--vynl-cyan);
 }
 
+/* Carte : rayon 16 px, fond vinyle */
 .card {
   padding: clamp(22px, 3vw, 32px);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  background: var(--vynl-vinyle);
+  border: 1px solid var(--vynl-bordure);
+  border-radius: var(--vynl-rayon-carte);
 }
 
+/* Icônes : trait fin, bouts arrondis */
 .icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.4;
+  stroke-width: 1.75;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .card .icon {
   margin-bottom: 1.25rem;
-  color: var(--cream-muted);
+  color: var(--vynl-reflet);
 }
 
 .card h3 {
   margin-bottom: 0.6rem;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
 }
 
 .card p {
-  color: var(--cream-muted);
-  font-size: 0.975rem;
+  color: var(--vynl-texte-2);
+  font-size: 0.9375rem;
 }
 
-/* Badges de provenance : simple contour, le texte suffit */
+/* Badges de provenance : un simple contour, cyan pour tout ce qui touche à l'IA */
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.22rem 0.65rem;
-  border: 1px solid var(--cream-soft);
-  border-radius: var(--radius-tag);
-  color: var(--cream);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  line-height: 1.4;
+  padding: 0.2rem 0.7rem;
+  border: 1px solid var(--vynl-texte-3);
+  border-radius: 999px;
+  color: var(--vynl-texte-2);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .badge--ai {
-  border-color: var(--copper);
-  color: var(--copper);
+  border-color: var(--vynl-cyan);
+  color: var(--vynl-cyan);
 }
 
-/* Statut d'une fonctionnalité */
+/* Statut d'une fonctionnalité : cyan = actif, pointillé = pas encore */
 .status {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.15rem 0.6rem;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-tag);
-  color: var(--cream-muted);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  padding: 0.15rem 0.7rem;
+  border: 1px solid rgba(25, 227, 255, 0.5);
+  border-radius: 999px;
+  color: var(--vynl-cyan);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .status::before {
@@ -357,30 +393,32 @@ ol {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--cream);
+  background: var(--vynl-cyan);
 }
 
 .status--soon {
+  border-color: var(--vynl-sillon);
   border-style: dashed;
+  color: var(--vynl-texte-2);
 }
 
 .status--soon::before {
   background: transparent;
-  border: 1px solid var(--cream-soft);
+  border: 1px solid var(--vynl-texte-3);
 }
 
 /* --------------------------------------------------------------------------
-   Header
+   En-tête (verre)
    -------------------------------------------------------------------------- */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(21, 18, 15, 0.86);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
+  background: rgba(11, 17, 48, 0.7);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--vynl-bordure);
 }
 
 .site-header__inner {
@@ -390,29 +428,24 @@ ol {
   min-height: var(--header-h);
 }
 
+/* Logo horizontal : icône à gauche, nom à droite */
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  color: var(--cream);
+  gap: 0.4rem;
+  color: var(--vynl-texte);
   text-decoration: none;
 }
 
 .logo__mark {
-  width: 28px;
-  height: 28px;
-}
-
-.logo__dot {
-  fill: var(--copper);
+  width: 36px;
+  height: 36px;
 }
 
 .logo__word {
-  font-family: var(--font-display);
-  font-size: 1.65rem;
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-family: var(--vynl-police-marque);
+  font-size: 1.375rem;
+  font-weight: 400;
   line-height: 1;
 }
 
@@ -424,22 +457,22 @@ ol {
 }
 
 .nav a {
-  padding: 0.5rem 0.85rem;
-  border-radius: var(--radius-sm);
-  color: var(--cream-muted);
-  font-size: 0.95rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  color: var(--vynl-texte-2);
+  font-size: 0.9375rem;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.25s var(--ease);
 }
 
 .nav a:hover,
 .nav a[aria-current="page"] {
-  color: var(--cream);
+  color: var(--vynl-texte);
 }
 
 .nav a[aria-current="page"] {
   text-decoration: underline;
-  text-decoration-color: var(--copper);
+  text-decoration-color: var(--vynl-cyan);
   text-underline-offset: 0.5em;
 }
 
@@ -454,27 +487,28 @@ ol {
 }
 
 .header-actions .login {
-  padding: 0.5rem 0.85rem;
-  color: var(--cream-muted);
-  font-size: 0.95rem;
+  padding: 0.5rem 0.9rem;
+  color: var(--vynl-texte-2);
+  font-size: 0.9375rem;
   text-decoration: none;
+  transition: color 0.25s var(--ease);
 }
 
 .header-actions .login:hover {
-  color: var(--cream);
+  color: var(--vynl-texte);
 }
 
 .nav-toggle {
   display: none;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-sm);
-  color: var(--cream);
+  border: 1px solid var(--vynl-sillon);
+  border-radius: 999px;
+  color: var(--vynl-texte);
   cursor: pointer;
 }
 
@@ -524,8 +558,8 @@ ol {
     gap: 0;
     margin: 0;
     padding: 0.5rem var(--gutter) 1.25rem;
-    background: var(--ink);
-    border-bottom: 1px solid var(--line);
+    background: var(--vynl-abysse);
+    border-bottom: 1px solid var(--vynl-bordure);
   }
 
   .site-header[data-open="true"] .nav {
@@ -533,15 +567,15 @@ ol {
   }
 
   .nav a {
-    padding: 0.85rem 0;
-    border-bottom: 1px solid var(--line);
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--vynl-bordure);
     border-radius: 0;
-    font-size: 1.05rem;
+    font-size: 1.0625rem;
   }
 
   .nav a[aria-current="page"] {
     text-decoration: none;
-    color: var(--copper);
+    color: var(--vynl-cyan);
   }
 
   .nav__mobile-only {
@@ -558,8 +592,12 @@ ol {
 }
 
 .section--surface {
-  background: var(--surface);
-  border-block: 1px solid var(--line);
+  background: var(--vynl-abysse);
+  border-block: 1px solid var(--vynl-bordure);
+}
+
+.section--surface .card {
+  background: var(--vynl-vinyle);
 }
 
 .section__head {
@@ -567,14 +605,15 @@ ol {
   margin-bottom: clamp(36px, 5vw, 60px);
 }
 
-.section__head h2 {
-  font-size: clamp(2rem, 4.4vw, 3.25rem);
+.section__head h2,
+.split h2 {
+  font-size: clamp(1.625rem, 3.4vw, 2rem);
 }
 
 .section__head p {
   margin-top: 1.25rem;
-  color: var(--cream-muted);
-  font-size: 1.125rem;
+  color: var(--vynl-texte-2);
+  font-size: 1.0625rem;
 }
 
 .grid {
@@ -584,11 +623,12 @@ ol {
 }
 
 /* --------------------------------------------------------------------------
-   Hero
+   Hero : la lueur bleue derrière le disque, c'est la même lumière que l'icône
    -------------------------------------------------------------------------- */
 
 .hero {
   padding-block: clamp(48px, 8vw, 104px) clamp(64px, 9vw, 120px);
+  background: radial-gradient(60% 52% at 74% 50%, rgba(0, 89, 249, 0.25), transparent);
 }
 
 .hero .grooves {
@@ -606,20 +646,22 @@ ol {
 }
 
 .hero h1 {
-  font-size: clamp(2.75rem, 6.6vw, 5rem);
-  font-weight: 350;
-  letter-spacing: -0.025em;
-  line-height: 1.02;
+  font-size: clamp(2.25rem, 5.4vw, 4rem);
+  letter-spacing: -0.01em;
 }
 
 .hero__lead {
   max-width: 34rem;
   margin-block: 1.75rem 2.25rem;
-  color: var(--cream-muted);
-  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  color: var(--vynl-texte-2);
+  font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
 }
 
 @media (max-width: 860px) {
+  .hero {
+    background: radial-gradient(90% 26% at 50% 74%, rgba(0, 89, 249, 0.25), transparent);
+  }
+
   .hero__grid {
     grid-template-columns: 1fr;
   }
@@ -627,7 +669,7 @@ ol {
 
 /* --------------------------------------------------------------------------
    Le disque
-   Le cercle structure l'écran : les sillons remplissent l'espace, l'arc cuivre
+   Le cercle structure l'écran : les sillons remplissent l'espace, l'arc cyan
    dans la dernière plage est la position dans le morceau.
    -------------------------------------------------------------------------- */
 
@@ -650,14 +692,15 @@ ol {
   inset: 0;
   border-radius: 50%;
   background:
-    radial-gradient(circle closest-side, transparent 0 95.5%, #0a0806 95.5%),
-    repeating-radial-gradient(circle closest-side, #0f0c0a 0 1.4px, #1b1612 1.4px 3px);
+    radial-gradient(circle closest-side, transparent 0 95.5%, #02030c 95.5%),
+    repeating-radial-gradient(circle closest-side, transparent 0 21px, rgba(50, 66, 140, 0.75) 21px 22px),
+    repeating-radial-gradient(circle closest-side, #0B1130 0 1.4px, #101946 1.4px 3px);
   box-shadow:
-    0 40px 90px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(244, 236, 224, 0.07);
+    0 40px 90px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(50, 66, 140, 0.6);
 }
 
-/* Reflet fixe : c'est le disque qui tourne sous la lumière, pas l'inverse */
+/* Reflet vinyle : une bande diagonale glacée, fixe — c'est le disque qui tourne */
 .record__disc::after {
   content: "";
   position: absolute;
@@ -666,9 +709,9 @@ ol {
   background: conic-gradient(
     from 35deg,
     transparent 0 8%,
-    rgba(244, 236, 224, 0.11) 14%,
+    rgba(144, 191, 233, 0.2) 14%,
     transparent 22% 58%,
-    rgba(244, 236, 224, 0.08) 64%,
+    rgba(144, 191, 233, 0.12) 64%,
     transparent 72%
   );
 }
@@ -698,19 +741,21 @@ ol {
   stroke-width: 0.5;
 }
 
+/* Piste #32428C, partie lue cyan, point blanc */
 .record__track {
   fill: none;
-  stroke: var(--line-strong);
+  stroke: var(--vynl-sillon);
   stroke-width: 0.6;
 }
 
 .record__arc {
   fill: none;
-  stroke: var(--copper);
+  stroke: var(--vynl-cyan);
   stroke-width: 1.1;
   stroke-linecap: round;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
+  filter: drop-shadow(0 0 1.5px rgba(25, 227, 255, 0.7));
 }
 
 .record__head {
@@ -719,13 +764,13 @@ ol {
 }
 
 .record__head circle {
-  fill: var(--copper);
+  fill: var(--vynl-texte);
 }
 
 .record__text {
-  fill: var(--cream);
-  font-family: var(--font-body);
-  font-size: 5.2px;
+  fill: var(--vynl-nuit);
+  font-family: var(--vynl-police-texte);
+  font-size: 5px;
   font-weight: 600;
 }
 
@@ -774,31 +819,33 @@ ol {
   display: none;
   align-items: center;
   gap: 1rem;
-  color: var(--cream-muted);
-  font-size: 0.85rem;
+  color: var(--vynl-texte-3);
+  font-size: 0.8125rem;
 }
 
 .js .transport {
   display: flex;
 }
 
+/* Bouton Lecture : cercle, dégradé Vague + lueur bleue (la seule lueur forte) */
 .play-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 60px;
   padding: 0;
-  background: var(--copper);
+  background: var(--vynl-degrade-vague);
   border: 0;
   border-radius: 50%;
-  color: var(--ink);
+  color: var(--vynl-texte);
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
+  box-shadow: var(--vynl-lueur);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 
 .play-btn:hover {
-  background: color-mix(in srgb, var(--copper) 82%, var(--cream));
+  transform: scale(1.05);
 }
 
 .play-btn:active {
@@ -806,10 +853,10 @@ ol {
 }
 
 .play-btn .icon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   margin: 0;
-  stroke-width: 1.6;
+  stroke-width: 2;
 }
 
 .play-btn[aria-pressed="true"] .icon--play,
@@ -822,26 +869,26 @@ ol {
    -------------------------------------------------------------------------- */
 
 .label-list {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--vynl-bordure);
 }
 
 .label-row {
   display: grid;
   gap: 0.5rem 2rem;
   align-items: baseline;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 170px 1fr;
   padding-block: 1.5rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--vynl-bordure);
 }
 
 .label-row p {
   max-width: 44rem;
-  color: var(--cream-muted);
+  color: var(--vynl-texte-2);
 }
 
 .label-row strong {
-  color: var(--cream);
-  font-weight: 500;
+  color: var(--vynl-texte);
+  font-weight: 600;
 }
 
 .label-note {
@@ -874,8 +921,8 @@ ol {
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
-  background: #0f0c0a;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--line);
+  background: var(--vynl-abysse);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--vynl-bordure);
 }
 
 .disc img {
@@ -891,7 +938,7 @@ ol {
   z-index: 1;
   background: repeating-radial-gradient(
     circle closest-side,
-    rgba(0, 0, 0, 0.3) 0 1px,
+    rgba(5, 8, 22, 0.35) 0 1px,
     transparent 1px 3px
   );
 }
@@ -905,16 +952,16 @@ ol {
   width: 14%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--ink);
-  box-shadow: 0 0 0 1px var(--line-strong);
+  background: var(--vynl-nuit);
+  box-shadow: 0 0 0 1px var(--vynl-sillon);
   translate: -50% -50%;
 }
 
-/* Pas de pochette : une étiquette braise, comme sur un disque nu */
+/* Pas de pochette : un label bleu, comme sur un disque nu */
 .disc--blank {
   background:
-    radial-gradient(circle closest-side, var(--ember) 0 34%, transparent 34%),
-    repeating-radial-gradient(circle closest-side, #0f0c0a 0 1.4px, #1b1612 1.4px 3px);
+    radial-gradient(circle closest-side, var(--vynl-bleu) 0 34%, transparent 34%),
+    repeating-radial-gradient(circle closest-side, #0B1130 0 1.4px, #101946 1.4px 3px);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -925,17 +972,17 @@ ol {
 
 .crate__title {
   margin-top: 0.9rem;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  line-height: 1.25;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .crate__artist {
-  color: var(--cream-muted);
-  font-size: 0.875rem;
+  color: var(--vynl-texte-2);
+  font-size: 0.9375rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -962,25 +1009,21 @@ ol {
   }
 }
 
-.split h2 {
-  font-size: clamp(2rem, 4.4vw, 3.25rem);
-}
-
 .split__lead {
   margin-block: 1.25rem 2rem;
-  color: var(--cream-muted);
-  font-size: 1.125rem;
+  color: var(--vynl-texte-2);
+  font-size: 1.0625rem;
 }
 
 .check-list li {
   display: flex;
   gap: 0.9rem;
   padding-block: 1rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--vynl-bordure);
 }
 
 .check-list li:last-child {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--vynl-bordure);
 }
 
 .check-list .icon {
@@ -988,16 +1031,16 @@ ol {
   width: 22px;
   height: 22px;
   margin-top: 0.15rem;
-  color: var(--copper);
+  color: var(--vynl-cyan);
 }
 
 .check-list span {
-  color: var(--cream-muted);
+  color: var(--vynl-texte-2);
 }
 
 .check-list strong {
-  color: var(--cream);
-  font-weight: 500;
+  color: var(--vynl-texte);
+  font-weight: 600;
 }
 
 /* --------------------------------------------------------------------------
@@ -1014,19 +1057,18 @@ ol {
 .steps li {
   counter-increment: step;
   padding-top: 1.25rem;
-  border-top: 1px solid var(--line-strong);
+  border-top: 1px solid var(--vynl-sillon);
 }
 
 .steps li::before {
   content: counter(step, decimal-leading-zero);
   display: block;
   margin-bottom: 1rem;
-  color: var(--cream-soft);
-  font-family: var(--font-display);
-  font-size: 2.25rem;
-  font-style: italic;
-  font-weight: 300;
+  color: var(--vynl-reflet);
+  font-family: var(--vynl-police-marque);
+  font-size: 2rem;
   line-height: 1;
+  opacity: 0.75;
 }
 
 .steps h3 {
@@ -1035,8 +1077,8 @@ ol {
 }
 
 .steps p {
-  color: var(--cream-muted);
-  font-size: 0.975rem;
+  color: var(--vynl-texte-2);
+  font-size: 0.9375rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -1081,19 +1123,15 @@ ol {
 
 .diagram__track {
   fill: none;
-  stroke: var(--line-strong);
+  stroke: var(--vynl-sillon);
   stroke-width: 0.6;
 }
 
 .diagram__arc {
   fill: none;
-  stroke: var(--copper);
+  stroke: var(--vynl-cyan);
   stroke-width: 1.6;
   stroke-linecap: round;
-}
-
-.diagram__core {
-  fill: var(--ember);
 }
 
 .diagram__legend {
@@ -1104,27 +1142,27 @@ ol {
   display: flex;
   gap: 1rem;
   padding-block: 1rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--vynl-bordure);
 }
 
 .diagram__legend li:last-child {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--vynl-bordure);
 }
 
 .diagram__legend strong {
   flex: none;
   min-width: 7.5rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .diagram__legend span {
-  color: var(--cream-muted);
+  color: var(--vynl-texte-2);
 }
 
 .fine-print {
   margin-top: 1.5rem;
-  color: var(--cream-soft);
-  font-size: 0.875rem;
+  color: var(--vynl-texte-3);
+  font-size: 0.8125rem;
 }
 
 .compare {
@@ -1133,39 +1171,40 @@ ol {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
 }
 
+/* Carte mise en avant : liseré brillant en haut, comme le bord du V */
 .compare .card--accent {
-  border-color: var(--line-strong);
+  border-top-color: rgba(25, 227, 255, 0.5);
 }
 
 .compare .tag {
   display: inline-block;
   margin-bottom: 1rem;
-  color: var(--cream-soft);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  color: var(--vynl-texte-3);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .compare .card--accent .tag {
-  color: var(--copper);
+  color: var(--vynl-cyan);
 }
 
 .notice {
   display: flex;
   gap: 1rem;
   padding: 1.25rem 1.5rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--ember);
-  border-radius: var(--radius-sm);
-  color: var(--cream-muted);
-  font-size: 0.975rem;
+  background: var(--vynl-vinyle);
+  border: 1px solid var(--vynl-bordure);
+  border-left: 3px solid var(--vynl-cyan);
+  border-radius: var(--vynl-rayon-champ);
+  color: var(--vynl-texte-2);
+  font-size: 0.9375rem;
 }
 
 .notice strong {
-  color: var(--cream);
-  font-weight: 500;
+  color: var(--vynl-texte);
+  font-weight: 600;
 }
 
 /* --------------------------------------------------------------------------
@@ -1175,6 +1214,7 @@ ol {
 .cta {
   padding-block: clamp(80px, 12vw, 152px);
   text-align: center;
+  background: radial-gradient(60% 50% at 50% 50%, rgba(0, 89, 249, 0.25), transparent);
 }
 
 .cta .grooves {
@@ -1185,16 +1225,19 @@ ol {
 }
 
 .cta h2 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 350;
-  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.01em;
+}
+
+.cta h2 em {
+  color: var(--vynl-reflet);
 }
 
 .cta p {
   max-width: 30rem;
   margin: 1.25rem auto 2.25rem;
-  color: var(--cream-muted);
-  font-size: 1.125rem;
+  color: var(--vynl-texte-2);
+  font-size: 1.0625rem;
 }
 
 .cta .btn-row {
@@ -1207,7 +1250,7 @@ ol {
 
 .site-footer {
   padding-block: clamp(48px, 7vw, 80px) 32px;
-  background: var(--ink);
+  background: var(--vynl-nuit);
 }
 
 .site-footer__grid {
@@ -1230,21 +1273,15 @@ ol {
 .site-footer__brand p {
   max-width: 20rem;
   margin-top: 1rem;
-  color: var(--cream-muted);
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-style: italic;
-  font-weight: 300;
+  color: var(--vynl-texte-2);
+  font-size: 0.9375rem;
 }
 
 .site-footer h2 {
   margin-bottom: 1rem;
-  color: var(--cream-soft);
-  font-family: var(--font-body);
-  font-size: 0.72rem;
+  color: var(--vynl-texte);
+  font-size: 0.9375rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .site-footer li + li {
@@ -1252,13 +1289,14 @@ ol {
 }
 
 .site-footer li a {
-  color: var(--cream-muted);
-  font-size: 0.95rem;
+  color: var(--vynl-texte-2);
+  font-size: 0.9375rem;
   text-decoration: none;
+  transition: color 0.25s var(--ease);
 }
 
 .site-footer li a:hover {
-  color: var(--cream);
+  color: var(--vynl-texte);
 }
 
 .site-footer__legal {
@@ -1268,20 +1306,20 @@ ol {
   gap: 0.75rem;
   margin-top: clamp(40px, 6vw, 64px);
   padding-top: 24px;
-  border-top: 1px solid var(--line);
-  color: var(--cream-soft);
-  font-size: 0.85rem;
+  border-top: 1px solid var(--vynl-bordure);
+  color: var(--vynl-texte-3);
+  font-size: 0.8125rem;
 }
 
 /* --------------------------------------------------------------------------
-   Apparition au défilement (activée seulement si le JS tourne)
+   Apparition au défilement (activée seulement si le JS tourne) — 300 ms
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: no-preference) {
   .js [data-reveal] {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(12px);
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
   }
 
   .js [data-reveal].is-visible {
@@ -1290,10 +1328,10 @@ ol {
   }
 
   .js [data-reveal-delay="1"] {
-    transition-delay: 0.08s;
+    transition-delay: 0.06s;
   }
 
   .js [data-reveal-delay="2"] {
-    transition-delay: 0.16s;
+    transition-delay: 0.12s;
   }
 }
